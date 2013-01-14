@@ -1,12 +1,16 @@
 (ns greentea.models.endpoints
   (:require [noir.response :as nr]
-            [greentea.models.queries :as cq]
-            [clj-time.format :as format]
-            [clj-time.coerce :as coerce])
+            [greentea.models.queries :as cq])
   (:use [noir.core]))
 
-(defpage "/coge-user-list" []
-  (nr/json {:user-list (cq/coge-user-list)}))
+(defpage "/coge-log-user-list" []
+  (nr/json (cq/coge-log-user-data)))
 
-(defpage "/coge-comment-list" []
-  (nr/json {:user-list (cq/coge-comment-list)}))
+(defpage "/coge-log-comment-data" []
+  (nr/json (cq/coge-log-comment-data)))
+
+(defpage "/coge-log-all-data" []
+  (nr/json (cq/coge-log-all-data)))
+
+(defpage "/coge-log-timeseries-data" []
+  (nr/json (cq/coge-log-timeseries-data)))

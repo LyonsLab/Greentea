@@ -2,10 +2,9 @@
     :description "CoGe's metric and analytics front-end for its backend data"
     :dependencies [[org.clojure/clojure "1.4.0"]
                    [org.iplantc/clojure-commons "1.1.0-SNAPSHOT"]
-                   [org.iplantc/kameleon "0.0.1-SNAPSHOT"]
+                   [cheshire "5.0.1"]
                    [clj-time "0.4.4"]
-                   [org.clojure/data.json "0.1.2"]
-                   [com.novemberain/monger "1.1.2"]
+                   [org.clojure/data.json "0.2.0"]
                    [korma/korma "0.3.0-beta10"]
                    [log4j/log4j "1.2.16"]
                    [mysql/mysql-connector-java "5.1.6"]
