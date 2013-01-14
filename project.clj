@@ -8,6 +8,7 @@
                    [com.novemberain/monger "1.1.2"]
                    [korma/korma "0.3.0-beta10"]
                    [log4j/log4j "1.2.16"]
+                   [mysql/mysql-connector-java "5.1.6"]
                    [noir "1.3.0-beta10"]]
     :profiles {:dev {:resource-paths ["resources/conf/test"]}}
     :aot [greentea.server]

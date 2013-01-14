@@ -7,7 +7,7 @@
 (server/load-views-ns 'greentea.views)
 
 (defn -main [& m]
-  ;(db-config)
+  (db-config)
   (let [mode (keyword (or (first m) :dev))
         ;port (listen-port)]
         port (int 3456)]
