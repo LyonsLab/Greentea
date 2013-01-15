@@ -57,8 +57,6 @@ td:nth-child(odd) {
 
 #logo {
     margin-bottom: 10px;
-    width: 350px;
-    height: 90px;
 }
 
 #navbar {
@@ -183,10 +181,7 @@ li.nav {
 #wrapper {
     margin: 0px auto;
     border: 1px solid #A2A2A2;
-    border-top: none;
     border-radius: 4px;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
     background-color: #E5E5E5;
     width: 600px;
     padding: 25px;
@@ -216,6 +211,10 @@ ul
 
 #footer {
     height: 100px;
+}
+
+#header {
+    height: 40px;
 }
 
 .right {

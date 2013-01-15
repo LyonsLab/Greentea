@@ -8,7 +8,7 @@ function createChart(){
 
     // SERIAL CHART
     chart = new AmCharts.AmSerialChart();
-    chart.pathToImages = "/de-analytics/img/";
+    chart.pathToImages = "img/";
     chart.zoomOutButton = {
         backgroundColor: '#000000',
         backgroundAlpha: 0.15
@@ -56,28 +56,28 @@ function createChart(){
     // value
     var valueAxis = new AmCharts.ValueAxis();
     valueAxis.axisAlpha = 0.15;
-    valueAxis.title = "# of Apps";
+    valueAxis.title = "# of Jobs";
     valueAxis.dashLength = 1;
     chart.addValueAxis(valueAxis);
 
     // GRAPH
     var graph = new AmCharts.AmGraph();
-    graph.title = "Apps Ran Over Time";
+    graph.title = "Jobs Run Over Time";
     graph.labelText = "[[count]]";
     graph.valueField = "count";
     graph.bullet = "round";
     graph.bulletBorderColor = "#FFF";
     graph.bulletBorderThickness = 2;
     graph.lineThickness = 2;
-    graph.lineColor = "#0098AA";
-    graph.negativeLineColor = "#AADDCC";
+    graph.lineColor = "#86bf84";
+    graph.negativeLineColor = "#9574a8";
     graph.hideBulletsCount = 100;
     chart.addGraph(graph);
 
     // CURSOR
     chartCursor = new AmCharts.ChartCursor();
-    chartCursor.cursorColor = '#db6619';
-    chartCursor.categoryBalloonColor = '#db6619';
+    chartCursor.cursorColor = '#9574a8';
+    chartCursor.categoryBalloonColor = '#9574a8';
     chartCursor.cursorPosition = "mouse";
     chartCursor.pan = true; // set it to false if you want the cursor to work in "select" mode
     chart.addChartCursor(chartCursor);
@@ -97,7 +97,7 @@ function generateChartData() {
     chartData = [];
     var response;
     request = $.ajax({
-        url: "/de-analytics/get-day-data/" + $('option:selected').attr("data"),
+        url: "/get-log-jobs-day" + $('option:selected').attr("data"),
         async: false,
         contentType: "application/json",
         success: function(data){
