@@ -24,7 +24,3 @@
         {:type "radio" :checked "true" :name "dayGroup" :onClick "setPanSelect()"}
           "Pan"]]
     (template/day-page)))
-
-(defpage "/graph/month" []
-  (template/graph-page
-    (template/month-page)))
