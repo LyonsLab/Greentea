@@ -9,8 +9,15 @@
   ;  (catch IllegalArgumentException e
   ;    (try (coerce/to-long (format/parse old-osm-format-2 date))
   ;      (catch IllegalArgumentException e
-  (Long/to-long date))
+  (coerce/to-long date))
   ;))))
+
+(defn mold-timeseries-data-to-days
+  "Rounds of milliseconds per to individual days"
+  [data]
+  (map
+    #(* 86400000 (long (/ (get-valid-epoch (second (first %))) 86400000)))
+    (identity data)))
 
 (defn format-data-for-graph
   "This function takes in dates and their counts and parses them into a JSON

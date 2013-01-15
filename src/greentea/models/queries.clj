@@ -22,7 +22,7 @@
     (where
       (> :time 0))))
 
-(defn coge-log-timeseries-data []
+(defn jobs-data []
   "Returns all data from the CoGe database useful
   for representing unique jobs ran over time."
   (select log
@@ -30,4 +30,10 @@
     (fields :time)
     (order :time)
     (where
-      (> :time 0))))
+      (and
+        (> :time 0)
+        (or
+          (= :page "GEvo.pl")
+          (= :page "SynMap.pl")
+          (= :page "SynFind.pl")
+          (= :page "CoGeBlast"))))))
