@@ -1,5 +1,6 @@
 (ns greentea.models.helpers
   (:require [clj-time.format :as format]
+            [clj-time.core :as time]
             [clj-time.coerce :as coerce]))
 
 (defn get-valid-epoch
@@ -9,7 +10,7 @@
   ;  (catch IllegalArgumentException e
   ;    (try (coerce/to-long (format/parse old-osm-format-2 date))
   ;      (catch IllegalArgumentException e
-  (coerce/to-long date))
+  (.getTime date))
   ;))))
 
 (defn mold-timeseries-data-to-days

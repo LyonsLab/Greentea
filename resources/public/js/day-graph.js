@@ -97,7 +97,7 @@ function generateChartData() {
     chartData = [];
     var response;
     request = $.ajax({
-        url: "/get-log-jobs-day" + $('option:selected').attr("data"),
+        url: "/get-log-jobs-day/" + $('option:selected').attr("data"),
         async: false,
         contentType: "application/json",
         success: function(data){

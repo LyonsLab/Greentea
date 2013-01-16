@@ -22,9 +22,10 @@
     (where
       (> :time 0))))
 
-(defn jobs-data []
+(defn jobs-data [type]
   "Returns all data from the CoGe database useful
   for representing unique jobs ran over time."
+;  (dry-run
   (select log
     (group :link)
     (fields :time)
@@ -32,8 +33,10 @@
     (where
       (and
         (> :time 0)
-        (or
-          (= :page "GEvo.pl")
-          (= :page "SynMap.pl")
-          (= :page "SynFind.pl")
-          (= :page "CoGeBlast"))))))
+          (cond
+            (nil? type) (or (like :page "GeVo%")
+                            (like :page "SynMap%")
+                            (like :page "SynFind%")
+                            (like :page "CoGeBlast%"))
+            :else (like :page (str type "%")))))))
+;)

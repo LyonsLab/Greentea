@@ -3,10 +3,10 @@
             [greentea.models.queries :as cq]))
 
 (defn group-jobs-by-day
-  "Takes in timeseries data and groups it by days." []
+  "Takes in timeseries data and groups it by days." [type]
   (hl/format-data-for-graph (into (sorted-map)
     (reduce #(assoc %1 %2 (inc (%1 %2 0))) {}
-      (hl/mold-timeseries-data-to-days (cq/jobs-data))))))
+      (hl/mold-timeseries-data-to-days (cq/jobs-data type))))))
 
 
 

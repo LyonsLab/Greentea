@@ -49,7 +49,11 @@
             [:option {:data "SynMap"} "SynMap"]
             [:option {:data "SynFind"} "SynFind"]
             [:option {:data "GeVo"} "GeVo"]
-            [:option {:data "CoGeBlast"} "CoGeBlast"]]
+            [:option {:data "CoGeBlast"} "CoGeBlast"]
+            [:option {:data "user"} "User Additions"]
+            [:option {:data "organismview"} "OrganismView"]
+
+]
         "CoGe Apps Over Time"]
         [:br]
         [:div#chart]
