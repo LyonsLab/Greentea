@@ -10,6 +10,7 @@
                    [mysql/mysql-connector-java "5.1.6"]
                    [noir "1.3.0-beta10"]]
     :profiles {:dev {:resource-paths ["resources/conf/test"]}}
+    :plugins [[lein-ring "0.8.2"]]
     :aot [greentea.server]
     :main greentea.server
 )

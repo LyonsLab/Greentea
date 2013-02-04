@@ -12,6 +12,8 @@
           :host "localhost"
           :password "root"}))
 
+
+
 (defentity log
   (pk :log_id)
   (table :log)

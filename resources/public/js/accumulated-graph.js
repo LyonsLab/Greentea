@@ -71,7 +71,7 @@ function createChart(){
     graph.lineThickness = 2;
     graph.lineColor = "#86bf84";
     graph.negativeLineColor = "#9574a8";
-    graph.hideBulletsCount = 100;
+    graph.hideBulletsCount = 15;
     chart.addGraph(graph);
 
     // CURSOR
@@ -97,7 +97,7 @@ function generateChartData() {
     chartData = [];
     var response;
     request = $.ajax({
-        url: "/get-log-jobs-day/" + $('option:selected').attr("data"),
+        url: "/get-log-jobs-accumulated/" + $('option:selected').attr("data"),
         async: false,
         contentType: "application/json",
         success: function(data){
@@ -116,28 +116,15 @@ function generateChartData() {
     var firstDate = response[0]['date'];
 
     $("#firstDate").html("" + firstDate);
-    $("#day").addClass("active");
 
     var daysBetween = Math.round(Math.abs(firstDate - new Date().getTime())/8640000);
 
-    for(var i = 0; i <= daysBetween; i++) {
-        var newDate = new Date(firstDate);
-        newDate.setDate(newDate.getDate() + i);
-        for(var j = 0; j < response.length; j++){
-            if(response[j]['date'].getTime() == newDate.getTime()){
-                chartData.push({
-                    date:  response[j]['date'],
-                    count: response[j]['count']
-                });
-                response = _.rest(response);
-                break;
-            } else {
-                chartData.push({
-                    date:  newDate,
-                    count: 0
-                });
-            }
-        }
+    for(var j = 0; j < response.length; j++){
+        chartData.push({
+            date:  response[j]['date'],
+            count: response[j]['count']
+        });
+        response = _.rest(response);
     }
 }
 

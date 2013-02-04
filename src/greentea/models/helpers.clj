@@ -23,10 +23,24 @@
 (defn format-data-for-graph
   "This function takes in dates and their counts and parses them into a JSON
   object for easy graph data parsing in javascript."
-[data]
-(map
-#(hash-map
-      :date (key %)
-      :count (val %))
-    data))
+  [data]
+  (map
+  #(hash-map
+        :date (key %)
+        :count (val %))
+     data))
 
+(defn accumulate
+"Takes a list of numbers and returns a list of numbers cummulatively added to
+ their previous value"
+  [n]
+  (loop [oldlist n newlist []]
+    (if (empty? oldlist)
+      newlist
+      (recur
+        (rest oldlist)
+        (merge newlist
+          (if (empty? newlist)
+              (first oldlist)
+              (+ (first oldlist)
+                 (last newlist))))))))

@@ -16,11 +16,8 @@
 
 (defpage "/graph/day" []
   (template/graph-page
-    [:div.select
-      [:input#rb1
-        {:type "radio" :name "dayGroup" :onClick "setPanSelect()"}
-          "Select&nbsp&nbsp"]
-      [:input
-        {:type "radio" :checked "true" :name "dayGroup" :onClick "setPanSelect()"}
-          "Pan"]]
     (template/day-page)))
+
+(defpage "/graph/accumulated" []
+  (template/graph-page
+    (template/accumulated-page)))

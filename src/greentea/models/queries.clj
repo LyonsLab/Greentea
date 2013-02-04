@@ -33,10 +33,10 @@
     (where
       (and
         (> :time 0)
-          (cond
-            (nil? type) (or (like :page "GeVo%")
-                            (like :page "SynMap%")
-                            (like :page "SynFind%")
-                            (like :page "CoGeBlast%"))
-            :else (like :page (str type "%")))))))
+        (cond (nil? type)
+          (or (like :page "GeVo%")
+              (like :page "SynMap%")
+              (like :page "SynFind%")
+              (like :page "CoGeBlast%"))
+          :else (like :page (str type "%")))))))
 ;)
