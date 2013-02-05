@@ -2,14 +2,14 @@
   (:require [greentea.models.helpers :as hl]
             [greentea.models.queries :as cq]))
 
-(defn group-by-day
+(defn group-jobs-by-day
   "Takes unix-epoch timeseries data, groups it by day and count, and formats it
    into easily workable json."
   [type]
   (hl/format-data-for-graph (sort
     (frequencies (hl/mold-timeseries-data-to-days (cq/jobs-data type))))))
 
-(defn accumulate-by-day
+(defn accumulate-jobs-by-day
   "Takes unix-epoch timeseries data, groups it by day and count, plus the
    previous count, and formats it into easily workable json."
   [type]

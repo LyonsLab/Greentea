@@ -14,7 +14,8 @@
   ;))))
 
 (defn mold-timeseries-data-to-days
-  "Rounds of milliseconds per to individual days"
+  "Rounds off milliseconds per entry to the epoch time of the start of it's
+  day"
   [data]
   (map
     #(* 86400000 (long (/ (get-valid-epoch (second (first %))) 86400000)))

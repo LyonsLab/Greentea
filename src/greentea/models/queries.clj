@@ -25,7 +25,6 @@
 (defn jobs-data [type]
   "Returns all data from the CoGe database useful
   for representing unique jobs ran over time."
-;  (dry-run
   (select log
     (group :link)
     (fields :time)
@@ -39,4 +38,3 @@
               (like :page "SynFind%")
               (like :page "CoGeBlast%"))
           :else (like :page (str type "%")))))))
-;)
