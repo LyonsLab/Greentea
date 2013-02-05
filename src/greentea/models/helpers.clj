@@ -13,6 +13,11 @@
   (.getTime date))
   ;))))
 
+(defn mold-timeseries-data-to-epoch
+  "Changes timestamp data to epoch timestamp"
+  [data]
+  (map #(get-valid-epoch (second (first %))) (identity data)))
+
 (defn mold-timeseries-data-to-days
   "Rounds off milliseconds per entry to the epoch time of the start of it's
   day"

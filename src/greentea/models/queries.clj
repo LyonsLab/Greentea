@@ -38,3 +38,16 @@
               (like :page "SynFind%")
               (like :page "CoGeBlast%"))
           :else (like :page (str type "%")))))))
+
+(defn user-account-creation-data [type]
+  "Returns all data from the CoGe database useful
+  for representing user account creation over time."
+  (select log
+    (fields :time)
+    (order :time)
+    (where
+      (and
+        (> :time 0)
+        (cond (nil? type)
+          (= :description "create user")
+          :else (= :description "create user group"))))))

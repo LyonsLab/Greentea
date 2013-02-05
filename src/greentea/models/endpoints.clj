@@ -31,3 +31,5 @@
 (defpage "/get-log-jobs-accumulated/" []
   (nr/json (mu/accumulate-jobs-by-day nil)))
 
+(defpage "/get-log-account-creation/" []
+  (nr/json (mu/account-creations nil)))

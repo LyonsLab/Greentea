@@ -19,3 +19,11 @@
         (map #(hash-map :date (key %)
                         :count (val %))
           (sort (zipmap keys vals))))))
+
+(defn account-creations
+  "preprocesses the account creation-data ready to be returned as JSON"
+  [type]
+  (hl/format-data-for-graph (sort
+    (frequencies (hl/mold-timeseries-data-to-epoch
+      (cq/user-account-creation-data type))))))
+
