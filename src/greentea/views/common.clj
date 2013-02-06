@@ -48,6 +48,7 @@
     [:head
       (global "Graph - by Day")
       (include-js "/js/lib/spin.min.js"
+                  "/js/lib/chosen.jquery.min.js"
                   "/js/spinner.js")]
     [:body
       {:onload "createChart()"}
@@ -59,11 +60,9 @@
             [:option {:data "SynFind"} "SynFind"]
             [:option {:data "GeVo"} "GeVo"]
             [:option {:data "CoGeBlast"} "CoGeBlast"]
-            [:option {:data "user"} "User Additions"]
-            [:option {:data "web"} "Web User Additions"]
             [:option {:data "featview"} "FeatView"]
             [:option {:data "organismview"} "OrganismView"]
-]
+            [:option {:data "user"} "User Additions"]]
         "CoGe Apps Over Time"]
         [:br]
         (graph-nav)
@@ -78,6 +77,8 @@
         content
         [:div#loader]
         [:h5.right "Data Starting from: " [:span#firstDate]])
+      (javascript-tag "$(document).ready(function(){
+                        $('.chzn-select').chosen()})")
       (include-js "/js/lib/amcharts.js"
                   "/js/lib/underscore-min.js")]))
 
