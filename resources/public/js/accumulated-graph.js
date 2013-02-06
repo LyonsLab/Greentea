@@ -96,8 +96,16 @@ function createChart(){
 function generateChartData() {
     chartData = [];
     var response;
+    var url;
+
+    if($('option:selected').attr("data") == 'user') {
+        url = "/get-log-account-creation/";
+    }else{
+        url ="/get-log-jobs-accumulated/" + $('option:selected').attr("data");
+    }
+
     request = $.ajax({
-        url: "/get-log-jobs-accumulated/" + $('option:selected').attr("data"),
+        url: url,
         async: false,
         contentType: "application/json",
         success: function(data){

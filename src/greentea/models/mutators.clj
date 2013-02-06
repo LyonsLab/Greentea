@@ -14,16 +14,12 @@
    previous count, and formats it into easily workable json."
   [type]
     (let [data (hl/mold-timeseries-data-to-days (cq/jobs-data type))]
-      (let [vals (hl/accumulate (vals (frequencies data)))
-            keys (sort (keys (frequencies data)))]
-        (map #(hash-map :date (key %)
-                        :count (val %))
-          (sort (zipmap keys vals))))))
+      (hl/accumulate-and-format-data data)))
 
-(defn account-creations
+(defn accumulate-account-creations
   "preprocesses the account creation-data ready to be returned as JSON"
   [type]
-  (hl/format-data-for-graph (sort
-    (frequencies (hl/mold-timeseries-data-to-epoch
-      (cq/user-account-creation-data type))))))
+    (let [data (hl/mold-timeseries-data-to-epoch
+                 (cq/user-account-creation-data type))]
+      (hl/accumulate-and-format-data data)))
 
