@@ -8,7 +8,7 @@ function createChart(){
 
     // SERIAL CHART
     chart = new AmCharts.AmSerialChart();
-    chart.pathToImages = "/img/";
+    chart.pathToImages = "/analytics/img/";
     chart.zoomOutButton = {
         backgroundColor: '#000000',
         backgroundAlpha: 0.15
@@ -29,14 +29,15 @@ function createChart(){
     });
 
     // AXES
-    // category
     var categoryAxis = chart.categoryAxis;
-    categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
-    categoryAxis.minPeriod = "DD"; // our data is daily, so we set minPeriod to DD
+    // our data is date-based, so we set parseDates to true
+    categoryAxis.parseDates = true;
+    // our data is daily, so we set minPeriod to DD
+    categoryAxis.minPeriod = "DD";
     categoryAxis.dashLength = 1;
     categoryAxis.gridAlpha = 0.15;
     categoryAxis.autoGridCount = false;
-    categoryAxis.gridCount = 10;
+    categoryAxis.gridCount = 20;
     categoryAxis.position = "top";
     categoryAxis.axisColor = "#CACACA";
     categoryAxis.dateFormats = [{
@@ -99,9 +100,9 @@ function generateChartData() {
     var url;
 
     if($('option:selected').attr("data") == 'user') {
-        url = "/get-log-account-creation/";
+        url = "/analytics/get-log-account-accumulated/";
     }else{
-        url ="/get-log-jobs-accumulated/" + $('option:selected').attr("data");
+        url ="/analytics/get-log-jobs-accumulated/" + $('option:selected').attr("data");
     }
 
     request = $.ajax({
@@ -124,8 +125,6 @@ function generateChartData() {
     var firstDate = response[0]['date'];
 
     $("#firstDate").html("" + firstDate);
-
-    var daysBetween = Math.round(Math.abs(firstDate - new Date().getTime())/8640000);
 
     for(var j = 0; j < response.length; j++){
         chartData.push({

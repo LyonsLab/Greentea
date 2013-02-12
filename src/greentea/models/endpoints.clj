@@ -31,5 +31,14 @@
 (defpage "/get-log-jobs-accumulated/" []
   (nr/json (mu/accumulate-jobs-by-day nil)))
 
-(defpage "/get-log-account-creation/" []
+(defpage "/get-log-account-accumulated/" []
   (nr/json (mu/accumulate-account-creations nil)))
+
+(defpage "/get-log-account-accumulated/:type" {:keys [type]}
+  (nr/json (mu/accumulate-account-creations type)))
+
+(defpage "/get-log-account-day/" []
+  (nr/json (mu/day-account-creations nil)))
+
+(defpage "/get-log-account-day/:type" {:keys [type]}
+  (nr/json (mu/day-account-creations type)))

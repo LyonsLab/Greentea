@@ -8,7 +8,7 @@ function createChart(){
 
     // SERIAL CHART
     chart = new AmCharts.AmSerialChart();
-    chart.pathToImages = "/img/";
+    chart.pathToImages = "/analytics/img/";
     chart.zoomOutButton = {
         backgroundColor: '#000000',
         backgroundAlpha: 0.15
@@ -36,7 +36,7 @@ function createChart(){
     categoryAxis.dashLength = 1;
     categoryAxis.gridAlpha = 0.15;
     categoryAxis.autoGridCount = false;
-    categoryAxis.gridCount = 10;
+    categoryAxis.gridCount = 20;
     categoryAxis.position = "top";
     categoryAxis.axisColor = "#CACACA";
     categoryAxis.dateFormats = [{
@@ -71,7 +71,7 @@ function createChart(){
     graph.lineThickness = 2;
     graph.lineColor = "#86bf84";
     graph.negativeLineColor = "#9574a8";
-    graph.hideBulletsCount = 100;
+    graph.hideBulletsCount = 60;
     chart.addGraph(graph);
 
     // CURSOR
@@ -96,8 +96,16 @@ function createChart(){
 function generateChartData() {
     chartData = [];
     var response;
+    var url;
+
+    if($('option:selected').attr("data") == 'user') {
+        url = "/analytics/get-log-account-day/";
+    }else{
+        url ="/analytics/get-log-jobs-day/" + $('option:selected').attr("data");
+    }
+
     request = $.ajax({
-        url: "/get-log-jobs-day/" + $('option:selected').attr("data"),
+        url: url,
         async: false,
         contentType: "application/json",
         success: function(data){
@@ -118,7 +126,8 @@ function generateChartData() {
     $("#firstDate").html("" + firstDate);
     $("#day").addClass("active");
 
-    var daysBetween = Math.round(Math.abs(firstDate - new Date().getTime())/8640000);
+    var daysBetween = Math.round(Math.abs(firstDate - new Date())/8640000);
+    console.log(new Date(new Date() - 2));
 
     for(var i = 0; i <= daysBetween; i++) {
         var newDate = new Date(firstDate);

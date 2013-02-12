@@ -7,7 +7,7 @@
    into easily workable json."
   [type]
   (hl/format-data-for-graph (sort
-    (frequencies (hl/mold-timeseries-data-to-days (cq/jobs-data type))))))
+    (frequencies (hl/mold-timeseries-data-to-epoch-days (cq/jobs-data type))))))
 
 (defn accumulate-jobs-by-day
   "Takes unix-epoch timeseries data, groups it by day and count, plus the
@@ -17,9 +17,16 @@
       (hl/accumulate-and-format-data data)))
 
 (defn accumulate-account-creations
-  "preprocesses the account creation-data ready to be returned as JSON"
+  "Preprocesses the account creation data accumulated to be returned as JSON"
   [type]
     (let [data (hl/mold-timeseries-data-to-epoch
-                 (cq/user-account-creation-data type))]
+           (cq/user-account-creation-data type))]
       (hl/accumulate-and-format-data data)))
+
+(defn day-account-creations
+  "Preprocesses the account creation-data by day ready to be returned as JSON"
+  [type]
+    (let [data (hl/mold-timeseries-data-to-epoch-days
+           (cq/user-account-creation-data type))]
+      (hl/format-data-for-graph (sort (frequencies data)))))
 
