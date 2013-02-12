@@ -13,7 +13,7 @@
   "Takes unix-epoch timeseries data, groups it by day and count, plus the
    previous count, and formats it into easily workable json."
   [type]
-    (let [data (hl/mold-timeseries-data-to-days (cq/jobs-data type))]
+    (let [data (hl/mold-timeseries-data-to-epoch-days (cq/jobs-data type))]
       (hl/accumulate-and-format-data data)))
 
 (defn accumulate-account-creations
