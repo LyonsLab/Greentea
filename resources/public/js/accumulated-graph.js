@@ -8,7 +8,7 @@ function createChart(){
 
     // SERIAL CHART
     chart = new AmCharts.AmSerialChart();
-    chart.pathToImages = "/analytics/img/";
+    chart.pathToImages = "/img/";
     chart.zoomOutButton = {
         backgroundColor: '#000000',
         backgroundAlpha: 0.15
@@ -100,9 +100,9 @@ function generateChartData() {
     var url;
 
     if($('option:selected').attr("data") == 'user') {
-        url = "/analytics/get-log-account-accumulated/";
+        url = "/get-log-account-accumulated/";
     }else{
-        url ="/analytics/get-log-jobs-accumulated/" + $('option:selected').attr("data");
+        url ="/get-log-jobs-accumulated/" + $('option:selected').attr("data");
     }
 
     request = $.ajax({

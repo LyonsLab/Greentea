@@ -7,8 +7,8 @@
   [:head
     [:title (str "CoGe Analytics - " title)]
     (include-css
-      "/analytics/css/reset.css"
-      "/analytics/css/style.css")
+      "/css/reset.css"
+      "/css/style.css")
     (include-js
       "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
       "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js")])
@@ -17,17 +17,17 @@
   [:div#graph-nav
     [:span.nav]
     [:a#day.nav
-      {:href "/analytics/graph/day"}
+      {:href "/graph/day"}
       [:li.nav "Day"]]
     [:span.nav]
     [:a#accumulated.nav
-      {:href "/analytics/graph/accumulated"}
+      {:href "/graph/accumulated"}
       [:li.nav "Accumulated"]]
     [:span.nav]])
 
 (defpartial wrapper [& content]
   [:div#wrapper
-    (image {:id "logo" :alt "CoGe Logo"} "/analytics/img/logo.png")
+    (image {:id "logo" :alt "CoGe Logo"} "/img/logo.png")
     [:br]
     content]
   [:br])
@@ -47,9 +47,9 @@
   (html5
     [:head
       (global "Graph - by Day")
-      (include-js "/analytics/js/lib/spin.min.js"
-                  "/analytics/js/lib/chosen.jquery.min.js"
-                  "/analytics/js/spinner.js")]
+      (include-js "/js/lib/spin.min.js"
+                  "/js/lib/chosen.jquery.min.js"
+                  "/js/spinner.js")]
     [:body
       {:onload "createChart()"}
       (page
@@ -79,15 +79,15 @@
         [:h5.right "Data Starting from: " [:span#firstDate]])
       (javascript-tag "$(document).ready(function(){
                         $('.chzn-select').chosen()})")
-      (include-js "/analytics/js/lib/amcharts.js"
-                  "/analytics/js/lib/underscore-min.js")]))
+      (include-js "/js/lib/amcharts.js"
+                  "/js/lib/underscore-min.js")]))
 
 (defpartial day-page []
-  (include-js "/analytics/js/day-graph.js")
+  (include-js "/js/day-graph.js")
   (javascript-tag "$('#day').addClass('active')"))
 
 (defpartial accumulated-page []
-  (include-js "/analytics/js/accumulated-graph.js")
+  (include-js "/js/accumulated-graph.js")
   (javascript-tag "$('#accumulated').addClass('active')"))
 
 (defpartial raw-page [& content]
