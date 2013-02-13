@@ -7,11 +7,11 @@
               [clojure-commons.props :as cp]))
 
 (defdb cogedb
-  (mysql {:db "coge"
-          :user "coge"
+  (mysql {:db "db"
+          :user "user"
           :host "localhost"
-          :port "3307"
-          :password "123coge321"}))
+          :port "port"
+          :password "pass"}))
 
 
 
