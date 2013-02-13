@@ -71,8 +71,8 @@
         [:h5.right "Data Starting from: " [:span#firstDate]]
         [:br][:br]
         [:h3
-          [:select#type.chzn-select
-            {:onchange "reloadChart()"
+          [:select#select.chzn-select
+            {:onchange "selectChart();;"
               :data-placeholder "Choose a CoGe Page"
               :style "width: 300px;" }
             [:option {:data ""} ""]

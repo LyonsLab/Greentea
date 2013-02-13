@@ -1,9 +1,9 @@
 var chart;
 var chartData = [];
-var chartCursor;
 
 function createChart(){
 
+    $("#chart").html("")
     generateChartData($(".active").attr('id'));
 
     // SERIAL CHART
@@ -108,23 +108,18 @@ function zoomChart() {
     chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
 }
 
-function reloadChart(){
-    $("#chart").html("")
-    createChart()
-}
-
 function toggleGraphs(e){
     if (e.id === "day"){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
             $('#day').addClass('active');
-            reloadChart();
+            createChart();
         }
     } else if (e.id === "accumulated"){
         $('#day').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
             $('#accumulated').addClass('active');
-            reloadChart();
+            createChart();
         }
     }
 }
@@ -132,39 +127,45 @@ function toggleGraphs(e){
 function generateChartData(type){
     chartData = [];
     var response = graphDataGopher(type);
-    var firstDate = response[0]['date'];
+    if (response[0]){
+        var firstDate = response[0]['date'];
 
-    $("#firstDate").html("" + firstDate);
+        $("#firstDate").html("" + firstDate);
 
-    if(type === "day") {
-        var daysBetween = Math.round(Math.abs(firstDate - new Date())/8640000);
-        for(var i = 0; i <= daysBetween; i++) {
-            var newDate = new Date(firstDate);
-            newDate.setDate(newDate.getDate() + i);
-            for(var j = 0; j < response.length; j++){
-                if(response[j]['date'].getTime() == newDate.getTime()){
-                    chartData.push({
-                        date:  response[j]['date'],
-                        count: response[j]['count']
-                    });
-                    response = _.rest(response);
-                    break;
-                } else {
-                    chartData.push({
-                        date:  newDate,
-                        count: 0
-                    });
+        if(type === "day") {
+            var daysBetween = Math.round(Math.abs(firstDate - new Date())/8640000);
+            for(var i = 0; i <= daysBetween; i++) {
+                var newDate = new Date(firstDate);
+                newDate.setDate(newDate.getDate() + i);
+                for(var j = 0; j < response.length; j++){
+                    if(response[j]['date'].getTime() == newDate.getTime()){
+                        chartData.push({
+                            date:  response[j]['date'],
+                            count: response[j]['count']
+                        });
+                        response = _.rest(response);
+                        break;
+                    } else {
+                        chartData.push({
+                            date:  newDate,
+                            count: 0
+                        });
+                    }
                 }
             }
+        }else if(type === "accumulated") {
+            for(var j = 0; j < response.length; j++){
+                chartData.push({
+                    date:  response[j]['date'],
+                    count: response[j]['count']
+                });
+                response = _.rest(response);
+            }
         }
-    }else if(type === "accumulated") {
-        for(var j = 0; j < response.length; j++){
-            chartData.push({
-                date:  response[j]['date'],
-                count: response[j]['count']
-            });
-            response = _.rest(response);
-        }
+    }else{
+        $('#chart').html("</br></br></br></br></br><h3>"
+                    + $('#search').val()
+                    + ": No Data</br></br>Try Again</h3>");
     }
 }
 
@@ -176,8 +177,12 @@ function graphDataGopher(type){
     if($('option:selected').attr("data") == 'user') {
         url = "/analytics/get-log-account-" + type + "/";
     }else{
-        url ="/analytics/get-log-jobs-" + type + "/"
-            + $('option:selected').attr("data");
+        url ="/analytics/get-log-jobs-" + type + "/";
+            if ($('#search').val() != "" ) {
+                url += $('#search').val();
+            }else{
+                url += $('option:selected').attr("data");
+            }
     }
 
     request = $.ajax({
@@ -202,4 +207,14 @@ function graphDataDateSculptor(data){
         d = new Date(d);
         element['date'] = d;
     }
+}
+
+function searchChart(){
+    $(".chzn-select").val('').trigger("liszt:updated");
+    createChart()
+}
+
+function selectChart(){
+    $('#search').val("");
+    createChart()
 }
