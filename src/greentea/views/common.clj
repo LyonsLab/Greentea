@@ -51,25 +51,26 @@
       (global "Graph - by Day")
       (include-js "/analytics/js/lib/spin.min.js"
                   "/analytics/js/lib/chosen.jquery.min.js"
-                  "/analytics/js/day-graph.js"
-                  "/analytics/js/accumulated-graph.js"
                   "/analytics/js/graph-script.js"
                   "/analytics/js/spinner.js")]
     [:body
       {:onload "createChart()"}
       (page
-        [:h3
-          [:select#type.selector
-            {:onchange "reloadChart()"}
-            [:option  {:data ""} "All"]
-            [:option {:data "synmap"} "SynMap"]
-            [:option {:data "synfind"} "SynFind"]
-            [:option {:data "gevo"} "GEvo"]
-            [:option {:data "cogeblast"} "CoGeBlast"]
-            [:option {:data "featview"} "FeatView"]
-            [:option {:data "organismview"} "OrganismView"]
-            [:option {:data "user"} "User Additions"]]
-        "CoGe Apps Over Time"]
+        [:span
+          [:h3
+            [:select#type.selector
+              {:onchange "reloadChart()"}
+              [:option  {:data ""} "All"]
+              [:option {:data "synmap"} "SynMap"]
+              [:option {:data "synfind"} "SynFind"]
+              [:option {:data "gevo"} "GEvo"]
+              [:option {:data "cogeblast"} "CoGeBlast"]
+              [:option {:data "featview"} "FeatView"]
+              [:option {:data "organismview"} "OrganismView"]
+              [:option {:data "user"} "User Additions"]]
+          "CoGe Apps Over Time"]
+          [:input#search
+            {:onchange "reloadChart()"}]]
         [:br]
         (graph-nav)
         [:div#chart]

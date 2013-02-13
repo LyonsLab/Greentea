@@ -3,11 +3,8 @@ var chartData = [];
 var chartCursor;
 
 function createChart(){
-    if ($(".active").attr('id') === "day"){
-        generateDayChartData();
-    } else if ($(".active").attr('id') === "accumulated"){
-        generateAccumulatedChartData();
-    }
+
+    generateChartData($(".active").attr('id'));
 
     // SERIAL CHART
     chart = new AmCharts.AmSerialChart();
@@ -129,5 +126,80 @@ function toggleGraphs(e){
             $('#accumulated').addClass('active');
             reloadChart();
         }
+    }
+}
+
+function generateChartData(type){
+    chartData = [];
+    var response = graphDataGopher(type);
+    var firstDate = response[0]['date'];
+
+    $("#firstDate").html("" + firstDate);
+
+    if(type === "day") {
+        var daysBetween = Math.round(Math.abs(firstDate - new Date())/8640000);
+        for(var i = 0; i <= daysBetween; i++) {
+            var newDate = new Date(firstDate);
+            newDate.setDate(newDate.getDate() + i);
+            for(var j = 0; j < response.length; j++){
+                if(response[j]['date'].getTime() == newDate.getTime()){
+                    chartData.push({
+                        date:  response[j]['date'],
+                        count: response[j]['count']
+                    });
+                    response = _.rest(response);
+                    break;
+                } else {
+                    chartData.push({
+                        date:  newDate,
+                        count: 0
+                    });
+                }
+            }
+        }
+    }else if(type === "accumulated") {
+        for(var j = 0; j < response.length; j++){
+            chartData.push({
+                date:  response[j]['date'],
+                count: response[j]['count']
+            });
+            response = _.rest(response);
+        }
+    }
+}
+
+// Makes the AJAX calls to the appropriate endpoints
+function graphDataGopher(type){
+    var response;
+    var url;
+
+    if($('option:selected').attr("data") == 'user') {
+        url = "/analytics/get-log-account-" + type + "/";
+    }else{
+        url ="/analytics/get-log-jobs-" + type + "/"
+            + $('option:selected').attr("data");
+    }
+
+    request = $.ajax({
+        url: url,
+        async: false,
+        contentType: "application/json",
+        success: function(data){
+            response = data;
+        }
+    });
+
+    graphDataDateSculptor(response);
+    return response;
+}
+
+// Processes data into usable javascript Date objects.
+function graphDataDateSculptor(data){
+    data.forEach(formatDate);
+
+    function formatDate(element) {
+        var d = new Date(element['date'] * 1).toDateString();
+        d = new Date(d);
+        element['date'] = d;
     }
 }
