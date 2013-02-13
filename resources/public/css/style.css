@@ -205,11 +205,6 @@ li.nav {
     border-radius: 4px;
 }
 
-ul
-{
-    list-style-image: url('../img/logo_sm.png');
-}
-
 #footer {
     height: 100px;
 }

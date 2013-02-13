@@ -8,6 +8,7 @@
     [:title (str "CoGe Analytics - " title)]
     (include-css
       "/analytics/css/reset.css"
+      "/analytics/css/chosen.css"
       "/analytics/css/style.css")
     (include-js
       "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
@@ -56,22 +57,6 @@
     [:body
       {:onload "createChart()"}
       (page
-        [:span
-          [:h3
-            [:select#type.selector
-              {:onchange "reloadChart()"}
-              [:option  {:data ""} "All"]
-              [:option {:data "synmap"} "SynMap"]
-              [:option {:data "synfind"} "SynFind"]
-              [:option {:data "gevo"} "GEvo"]
-              [:option {:data "cogeblast"} "CoGeBlast"]
-              [:option {:data "featview"} "FeatView"]
-              [:option {:data "organismview"} "OrganismView"]
-              [:option {:data "user"} "User Additions"]]
-          "CoGe Apps Over Time"]
-          [:input#search
-            {:onchange "reloadChart()"}]]
-        [:br]
         (graph-nav)
         [:div#chart]
         [:div.select
@@ -83,9 +68,30 @@
               "Pan"]]
         content
         [:div#loader]
-        [:h5.right "Data Starting from: " [:span#firstDate]])
+        [:h5.right "Data Starting from: " [:span#firstDate]]
+        [:br][:br]
+        [:h3
+          [:select#type.chzn-select
+            {:onchange "reloadChart()"
+              :data-placeholder "Choose a CoGe Page"
+              :style "width: 300px;" }
+            [:option {:data ""} ""]
+            [:option {:data ""} "Main 4 Jobs"]
+            [:option {:data "synmap"} "SynMap"]
+            [:option {:data "synfind"} "SynFind"]
+            [:option {:data "gevo"} "GEvo"]
+            [:option {:data "cogeblast"} "CoGeBlast"]
+            [:option {:data "featview"} "FeatView"]
+            [:option {:data "organismview"} "OrganismView"]
+            [:option {:data "user"} "User Additions"]]]
+        [:br]
+        [:h3 "Search:" [:input#search
+          {:onchange "searchChart()"}]])
       (javascript-tag "$(document).ready(function(){
-                        $('.chzn-select').chosen()})")
+                        $('.chzn-select').chosen({
+                          no_results_text: 'No results matched'
+                        });
+                      })")
       (include-js "/analytics/js/lib/amcharts.js"
                   "/analytics/js/lib/underscore-min.js")]))
 
