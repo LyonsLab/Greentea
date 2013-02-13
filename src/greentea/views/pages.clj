@@ -9,12 +9,8 @@
         [hiccup.element]))
 
 (defpage "/" []
-  (render "/graph/day"))
+  (render "/graph"))
 
-(defpage "/graph/day" []
+(defpage "/graph" []
   (template/graph-page
     (template/day-page)))
-
-(defpage "/graph/accumulated" []
-  (template/graph-page
-    (template/accumulated-page)))

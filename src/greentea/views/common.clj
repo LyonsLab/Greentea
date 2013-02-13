@@ -17,11 +17,13 @@
   [:div#graph-nav
     [:span.nav]
     [:a#day.nav
-      {:href "/graph/day"}
+      {:onclick "toggleGraphs(this)"
+      :href "#"}
       [:li.nav "Day"]]
     [:span.nav]
     [:a#accumulated.nav
-      {:href "/graph/accumulated"}
+      {:onclick "toggleGraphs(this)"
+      :href "#"}
       [:li.nav "Accumulated"]]
     [:span.nav]])
 
@@ -49,12 +51,16 @@
       (global "Graph - by Day")
       (include-js "/js/lib/spin.min.js"
                   "/js/lib/chosen.jquery.min.js"
+                  "/js/day-graph.js"
+                  "/js/accumulated-graph.js"
+                  "/js/graph-script.js"
                   "/js/spinner.js")]
     [:body
       {:onload "createChart()"}
       (page
         [:h3
-          [:select#type.selector {:onchange "reloadChart()"}
+          [:select#type.selector
+            {:onchange "reloadChart()"}
             [:option  {:data ""} "All"]
             [:option {:data "synmap"} "SynMap"]
             [:option {:data "synfind"} "SynFind"]
@@ -83,12 +89,7 @@
                   "/js/lib/underscore-min.js")]))
 
 (defpartial day-page []
-  (include-js "/js/day-graph.js")
   (javascript-tag "$('#day').addClass('active')"))
-
-(defpartial accumulated-page []
-  (include-js "/js/accumulated-graph.js")
-  (javascript-tag "$('#accumulated').addClass('active')"))
 
 (defpartial raw-page [& content]
   (html5
