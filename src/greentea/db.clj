@@ -8,9 +8,10 @@
 
 (defdb cogedb
   (mysql {:db "coge"
-          :user "root"
+          :user "coge"
           :host "localhost"
-          :password "root"}))
+          :port "3307"
+          :password "123coge321"}))
 
 
 

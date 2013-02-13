@@ -4,9 +4,9 @@ function generateDayChartData() {
     var url;
 
     if($('option:selected').attr("data") == 'user') {
-        url = "/get-log-account-day/";
+        url = "/analytics/get-log-account-day/";
     }else{
-        url ="/get-log-jobs-day/" + $('option:selected').attr("data");
+        url ="/analytics/get-log-jobs-day/" + $('option:selected').attr("data");
     }
 
     request = $.ajax({

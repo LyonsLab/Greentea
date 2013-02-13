@@ -4,9 +4,9 @@ function generateAccumulatedChartData() {
     var url;
 
     if($('option:selected').attr("data") == 'user') {
-        url = "/get-log-account-accumulated/";
+        url = "/analytics/get-log-account-accumulated/";
     }else{
-        url ="/get-log-jobs-accumulated/" + $('option:selected').attr("data");
+        url ="/analytics/get-log-jobs-accumulated/" + $('option:selected').attr("data");
     }
 
     request = $.ajax({

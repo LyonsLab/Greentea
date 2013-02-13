@@ -11,7 +11,7 @@ function createChart(){
 
     // SERIAL CHART
     chart = new AmCharts.AmSerialChart();
-    chart.pathToImages = "/img/";
+    chart.pathToImages = "/analytics/img/";
     chart.zoomOutButton = {
         backgroundColor: '#000000',
         backgroundAlpha: 0.15
