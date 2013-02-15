@@ -1,6 +1,6 @@
 body {
     text-align: center;
-    background: url(../img/hexellence.png);
+    background: url(../img/bg.png);
     font: 16px/22px "Open Sans", Helvetica, Arial, sans-serif;
     font-shadow: 0px 1px #FFF;
     -webkit-font-smoothing: antialiased;
@@ -296,7 +296,7 @@ li.nav {
     float: left;
 }
 
-g:nth-child(15) {
+g:nth-child(16) {
     display: none;
 }
 

@@ -1,5 +1,7 @@
 var chart;
 var chartData = [];
+var startDate;
+var endDate;
 
 function createChart(){
 
@@ -18,10 +20,10 @@ function createChart(){
     chart.balloon.bulletSize = 5;
 
     // listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
-    chart.addListener("dataUpdated", zoomChart);
+    chart.zoomOutOnDataUpdate = false
     // while loading hack
     var init = false;
-    chart.addListener("zoomed", function (event) {
+    chart.addListener("init", function (event) {
         if(!init) {
             $('#loader').hide();
             init = true;
@@ -92,6 +94,7 @@ function createChart(){
 
     // WRITE
     chart.write("chart");
+    zoomChart();
 };
 
 function setPanSelect() {
@@ -105,10 +108,18 @@ function setPanSelect() {
 }
 
 function zoomChart() {
+    if (startDate && endDate){
+    chart.zoomToDates(startDate, endDate);
+    } else {
     chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
+    }
 }
 
 function toggleGraphs(e){
+    startDate = chart.startDate;
+    endDate = chart.endDate;
+    console.log(startDate);
+    console.log(endDate);
     if (e.id === "day"){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
@@ -211,10 +222,14 @@ function graphDataDateSculptor(data){
 
 function searchChart(){
     $(".chzn-select").val('').trigger("liszt:updated");
+    startDate = chart.startDate;
+    endDate = chart.endDate;
     createChart()
 }
 
 function selectChart(){
     $('#search').val("");
+    startDate = chart.startDate;
+    endDate = chart.endDate;
     createChart()
 }

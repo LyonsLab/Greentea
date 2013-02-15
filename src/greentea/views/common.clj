@@ -81,7 +81,8 @@
             [:br][:br]
             (search-box)
             [:br][:br]
-            (select-box)]
+            (select-box)
+          ]
           [:div#inner
             (graph-nav)
             [:div#chart]
