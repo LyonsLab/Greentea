@@ -1,7 +1,7 @@
 body {
     text-align: center;
     background: url(../img/hexellence.png);
-    font: 16px/22px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font: 16px/22px "Open Sans", Helvetica, Arial, sans-serif;
     font-shadow: 0px 1px #FFF;
     -webkit-font-smoothing: antialiased;
     font-smoothing: antialiased;
@@ -12,10 +12,6 @@ body {
 table {
     margin: 0px auto;
     border-collapse:collapse;
-}
-
-table#unused {
-    font-size: 11pt;
 }
 
 th {
@@ -32,20 +28,6 @@ td {
     color: #6D929B;
 }
 
-td.component {
-    max-width: 150px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-td.integrator {
-    max-width: 90px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
 tr {
     border-radius: 4px;
 }
@@ -53,10 +35,6 @@ tr {
 td:nth-child(odd) {
     background: #F5FAFA;
     color: #496F79;
-}
-
-#logo {
-    margin-bottom: 10px;
 }
 
 #navbar {
@@ -164,14 +142,70 @@ li.nav {
 
 #graph-nav {
     padding: 5px;
-    padding-left: 10px;
     padding-right: 10px;
     border: 1px solid #A2A2A2;
+    border-left: none;
     border-radius: 10px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
     margin-bottom: 10px;
     background: #eeeeee; /* Old browsers */
+    position: relative;
+    margin-bottom: -5px;
+    margin-right: -7px;
+    margin-left: -1px;
+    height: 30px;
+}
+
+#chart-bottom {
+    border: 1px solid #A2A2A2;
+    border-left: none;
+    height: 36px;
+    line-height: 37px;
+    background: #cccccc; /* Old browsers */
+    background: linear-gradient(to top, #eeeeee 30%,#cccccc 100%);
+    background: -moz-linear-gradient(top, #eeeeee 30%, #cccccc 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #eeeeee 30%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #eeeeee 30%,#cccccc 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #eeeeee 30%,#cccccc 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #eeeeee 30%,#cccccc 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+    margin-top: -5px;
+    margin-right: -7px;
+    margin-left: -1px;
+    border-radius: 5px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    padding-left: 13px;
+    padding-right: 13px;
+}
+
+
+#wrapper {
+    margin: 0px auto;
+   /* border: 1px solid #A2A2A2;
+    border-radius: 4px;
+    background-color: #E5E5E5;*/
+    width: 1000px;
+    height: 600px;
+}
+
+#outer {
+    width: 100%;
+    height: 100%;
+}
+
+#side-nav{
+    height: 100%;
+    width: 350px;
+    float: left;
+    border: 1px solid #A2A2A2;
+    border-top-left-radius: 50px 25px;
+    border-bottom-left-radius: 50px 25px;
+    background: #eeeeee; /* Old browsers */
     background: -moz-linear-gradient(top,  #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
     background: -o-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* IE10+ */
@@ -179,131 +213,87 @@ li.nav {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
 }
 
-#wrapper {
-    margin: 0px auto;
-   /* border: 1px solid #A2A2A2;
-    border-radius: 4px;
-    background-color: #E5E5E5;*/
-    width: 600px;
-    padding: 25px;
-    padding-top: 30px;
-    padding-bottom: 60px;
+#logo {
+    margin-top: 20px;
+    border:
 }
 
 #inner {
-    border-top: 1px solid #AAA;
-    border-left: 1px solid #AAA;
-    border-bottom: 1px solid #BBB;
-    border-right: 1px solid #BBB;
-    width: 400px;
+    width: 698px;
+    float: right;
+}
+
+#search {
+    width: 250px;
+    margin: 10px;
+    height: 20px;
+    padding: 3px;
+    font-size: 14pt;
+}
+
+
+#select {
     margin: 0px auto;
-    background-color: #EFEFEF;
-    padding: 25px;
-    padding-left: 35px;
-    padding-right: 35px;
-    color: #333;
-    border-radius: 4px;
+    width: 250px;
 }
 
 #footer {
     height: 100px;
+    width: 100%;
+    margin-bottom: 0px;
+    position: fixed;
+    bottom: 0px;
 }
 
 #header {
     height: 40px;
 }
 
-.right {
-    color: #303030;
-    font-weight: bold;
-    float: right;
-}
-
-.left {
-    text-align: left;
-}
-
 .center {
     text-align: center;
-}
-
-/* --- Collapsible Container Stylings --- */
-.collapsibleContainer {
-    width: 80%;
     margin: 0px auto;
-    border: solid 1px #0098AA;
-    border-radius: 4px;
-    color: #222;
 }
 
-.collapsibleContainerTitle {
-    cursor:pointer;
-}
-
-.collapsibleContainerTitle div {
-    padding: 5px;
-    border-radius: 4px;
-    color: #333;
-    background: #65dddf; /* Old browsers */
-    background: -moz-linear-gradient(top,  #65dddf 0%, #42d0d2 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#65dddf), color-stop(100%,#42d0d2)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #65dddf 0%,#42d0d2 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #65dddf 0%,#42d0d2 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #65dddf 0%,#42d0d2 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  #65dddf 0%,#42d0d2 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#65dddf', endColorstr='#42d0d2',GradientType=0 ); /* IE6-9 */
-}
-
-.collapsibleContainerContent {
-    display: none;
-    padding: 10px;
-}
-
-.collapsibleContainerTitle, .collapsibleContainerTitle div {
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-}
-
-.expanded.collapsibleContainerTitle, .expanded.collapsibleContainerTitle div {
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-}
-
-.arrow {
-    float: right;
-    width: 2.8%;
-    height: 2.8%;
-    position: relative;
-    top: 4px;
-    opacity: .6;
-}
-
-#leaderboard td.name {
-    width: 280px;
-}
-
-#app-info {
-    font-size:8pt;
-    border-spacing: 0;
-    text-align: center;
-}
-
-#app-info th {
-    text-align: center;
+#side-nav {
+    width: 300px;
+    float: left;
 }
 
 /* --- amChart Stylings --- */
 #chart {
-    width: 100%;
-    height: 400px;
+    border: 1px solid #A2A2A2;
+    height: 530px;
     background: #EFEFEF;
     border-radius: 5px;
-    border: 1px solid #A2A2A2;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: none;
 }
 
-.select {
-    position: absolute;
-    margin-left: 35px;
+#chart-bottom {
+    border: 1px solid #A2A2A2;
+    border-left: none;
+    height: 36px;
+    line-height: 37px;
+    background: #cccccc; /* Old browsers */
+    /*background: linear-gradient(to bottom,  #eeeeee 0%,#cccccc 100%);*/
+    margin-top: -5px;
+    margin-right: -7px;
+    margin-left: -1px;
+    border-radius: 5px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    padding-left: 13px;
+    padding-right: 13px;
+}
+
+#starting {
+    float: right;
+    font-weight: 600;
+}
+
+#controls {
+    float: left;
 }
 
 g:nth-child(15) {
@@ -314,28 +304,4 @@ g:nth-child(15) {
 .spinner {
     position: relative;
     bottom: 200px;
-}
-
-/* --- CSV Styling --- */
-#csv {
-    text-align: left;
-    font-size: 8pt;
-    line-height: 10px;
-}
-
-/* --- datepicker fix --- */
-#ui-datepicker-div {
-    display: none;
-}
-
-/* --- tooltip fix --- */
-
-.ui-tooltip {
-    font-size: 10pt;
-    max-width: 250px;
-    background: white;
-    padding:8px;
-    position:absolute;
-    z-index:9999;
-    border: 1px solid #C1DAD7;
 }

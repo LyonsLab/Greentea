@@ -9,10 +9,26 @@
     (include-css
       "/analytics/css/reset.css"
       "/analytics/css/chosen.css"
-      "/analytics/css/style.css")
+      "/analytics/css/style.css"
+      "//fonts.googleapis.com/css?family=Open+Sans:400,600,800")
     (include-js
       "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
       "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js")])
+
+(defpartial wrapper [& content]
+  [:div#wrapper content])
+
+(defpartial header []
+  [:div#header])
+
+(defpartial footer []
+  [:div#footer])
+
+(defpartial page [& content]
+  (header)
+  (wrapper content)
+  (footer))
+
 
 (defpartial graph-nav []
   [:div#graph-nav
@@ -28,23 +44,24 @@
       [:li.nav "Accumulated"]]
     [:span.nav]])
 
-(defpartial wrapper [& content]
-  [:div#wrapper
-    (image {:id "logo" :alt "CoGe Logo"} "/analytics/img/logo.png")
-    [:br]
-    content]
-  [:br])
+(defpartial select-box []
+  [:select#select.chzn-select
+    {:onchange "selectChart();"
+      :data-placeholder "Choose a CoGe Page"}
+    [:option {:data ""} ""]
+    [:option {:data ""} "Main 4 Jobs"]
+    [:option {:data "synmap"} "SynMap"]
+    [:option {:data "synfind"} "SynFind"]
+    [:option {:data "gevo"} "GEvo"]
+    [:option {:data "cogeblast"} "CoGeBlast"]
+    [:option {:data "featview"} "FeatView"]
+    [:option {:data "organismview"} "OrganismView"]
+    [:option {:data "user"} "User Additions"]])
 
-(defpartial header []
-  [:div#header])
-
-(defpartial footer []
-  [:div#footer])
-
-(defpartial page [& content]
-  (header)
-  (wrapper content)
-  (footer))
+(defpartial search-box []
+  [:span "Search:"
+    [:input#search
+      {:onchange "searchChart()"}]])
 
 (defpartial graph-page [& content]
   (html5
@@ -57,36 +74,28 @@
     [:body
       {:onload "createChart()"}
       (page
-        (graph-nav)
-        [:div#chart]
-        [:div.select
-          [:input#rb1
-            {:type "radio" :name "dayGroup" :onClick "setPanSelect()"}
-              "Select&nbsp&nbsp"]
-          [:input
-            {:type "radio" :checked "true" :name "dayGroup" :onClick "setPanSelect()"}
-              "Pan"]]
-        content
-        [:div#loader]
-        [:h5.right "Data Starting from: " [:span#firstDate]]
-        [:br][:br]
-        [:h3
-          [:select#select.chzn-select
-            {:onchange "selectChart();;"
-              :data-placeholder "Choose a CoGe Page"
-              :style "width: 300px;" }
-            [:option {:data ""} ""]
-            [:option {:data ""} "Main 4 Jobs"]
-            [:option {:data "synmap"} "SynMap"]
-            [:option {:data "synfind"} "SynFind"]
-            [:option {:data "gevo"} "GEvo"]
-            [:option {:data "cogeblast"} "CoGeBlast"]
-            [:option {:data "featview"} "FeatView"]
-            [:option {:data "organismview"} "OrganismView"]
-            [:option {:data "user"} "User Additions"]]]
-        [:br]
-        [:h3 "Search:" [:input#search
-          {:onchange "searchChart()"}]])
+        [:div#outer
+          [:div#side-nav
+            (image {:id "logo" :alt "CoGe Logo"}
+              "/analytics/img/logo.png")
+            [:br][:br]
+            (search-box)
+            [:br][:br]
+            (select-box)]
+          [:div#inner
+            (graph-nav)
+            [:div#chart]
+            [:div#chart-bottom
+              [:div#controls
+                [:input#rb1
+                  {:type "radio" :name "dayGroup" :onClick "setPanSelect()"}
+                    "Select&nbsp&nbsp"]
+                [:input
+                  {:type "radio" :checked "true"
+                  :name "dayGroup" :onClick "setPanSelect()"} "Pan"]]
+              [:h5#starting "Data Starting from: " [:span#firstDate]]]]
+          content
+          [:div#loader]])
       (javascript-tag "$(document).ready(function(){
                         $('.chzn-select').chosen({
                           no_results_text: 'No results matched'
