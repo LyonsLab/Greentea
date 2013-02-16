@@ -8,6 +8,13 @@ body {
     font-weight: 400;
     color: #333;
 }
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min-device-pixel-ratio: 2) {
+    body {
+        background-image: url(../img/bg@2X.png);
+        background-size: 50px 50px;
+    }
+}
 
 table {
     margin: 0px auto;
@@ -184,10 +191,7 @@ li.nav {
 
 #wrapper {
     margin: 0px auto;
-   /* border: 1px solid #A2A2A2;
-    border-radius: 4px;
-    background-color: #E5E5E5;*/
-    width: 1000px;
+    width: 1100px;
     height: 600px;
 }
 
@@ -201,30 +205,26 @@ li.nav {
     width: 350px;
     float: left;
     border: 1px solid #A2A2A2;
-    border-top-left-radius: 50px 25px;
-    border-bottom-left-radius: 50px 25px;
+    border-top-left-radius: 50px 30px;
+    border-bottom-left-radius: 50px 30px;
     background: #eeeeee; /* Old browsers */
-    background: -moz-linear-gradient(top,  #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* IE10+ */
     background: linear-gradient(to bottom,  #eeeeee 0%,#cccccc 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
 }
 
 #logo {
     margin-top: 20px;
-    border:
 }
 
 #inner {
-    width: 698px;
+    width: 798px;
     float: right;
 }
 
 #search {
-    width: 250px;
+    width: 240px;
     margin: 10px;
     height: 20px;
     padding: 3px;
@@ -246,7 +246,7 @@ li.nav {
 }
 
 #header {
-    height: 40px;
+    height: 120px;
 }
 
 .center {
@@ -263,7 +263,7 @@ li.nav {
 #chart {
     border: 1px solid #A2A2A2;
     height: 530px;
-    background: #EFEFEF;
+    background: rgba(239,239,239,0.3);
     border-radius: 5px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;

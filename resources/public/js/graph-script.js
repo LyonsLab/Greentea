@@ -2,6 +2,7 @@ var chart;
 var chartData = [];
 var startDate;
 var endDate;
+var page;
 
 function createChart(){
 
@@ -12,12 +13,18 @@ function createChart(){
     chart = new AmCharts.AmSerialChart();
     chart.pathToImages = "/analytics/img/";
     chart.zoomOutButton = {
-        backgroundColor: '#000000',
-        backgroundAlpha: 0.15
+        backgroundColor: '#FFFFFF',
+        backgroundAlpha: 0.55
     };
     chart.dataProvider = chartData;
     chart.categoryField = "date";
-    chart.balloon.bulletSize = 5;
+    chart.balloon.bulletSize = 4;
+    chart.balloon.borderColor = "#9574a8"
+    chart.balloon.color = "#333"
+    chart.balloon.fontSize = 14;
+    chart.balloon.borderThickness = 2;
+    chart.balloon.cornerRadius = 10;
+    chart.fontFamily = 'Open Sans';
 
     // listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
     chart.zoomOutOnDataUpdate = false
@@ -36,12 +43,15 @@ function createChart(){
     categoryAxis.parseDates = true;
     // our data is daily, so we set minPeriod to DD
     categoryAxis.minPeriod = "DD";
+    categoryAxis.color = "#B9B9B9";
+    categoryAxis.axisColor = "#B9B9B9";
+    categoryAxis.gridColor = "#B9B9B9";
+    categoryAxis.fontSize = 15;
     categoryAxis.dashLength = 1;
-    categoryAxis.gridAlpha = 0.15;
+    categoryAxis.gridAlpha = 0.55;
     categoryAxis.autoGridCount = false;
-    categoryAxis.gridCount = 20;
+    categoryAxis.gridCount = 15;
     categoryAxis.position = "top";
-    categoryAxis.axisColor = "#CACACA";
     categoryAxis.dateFormats = [{
             period: "DD",
             format: "DD"
@@ -58,29 +68,35 @@ function createChart(){
 
     // value
     var valueAxis = new AmCharts.ValueAxis();
-    valueAxis.axisAlpha = 0.15;
-    valueAxis.title = "#";
+    valueAxis.gridAlpha = 0.55;
+    valueAxis.color = "#B9B9B9";
+    valueAxis.axisColor = "#B9B9B9";
+    valueAxis.gridColor = "#B9B9B9";
+    valueAxis.titleColor = "#B9B9B9";
+    valueAxis.fontSize = 15;
+    valueAxis.title = "# of " + page + " Page Logs";
     valueAxis.dashLength = 1;
     chart.addValueAxis(valueAxis);
 
     // GRAPH
     var graph = new AmCharts.AmGraph();
-    graph.title = "Jobs Run Over Time";
+    graph.title = page + " Created Over Time";
     graph.labelText = "[[count]]";
     graph.valueField = "count";
     graph.bullet = "round";
-    graph.bulletBorderColor = "#FFF";
     graph.bulletBorderThickness = 2;
-    graph.lineThickness = 2;
+    graph.lineThickness = 3;
     graph.lineColor = "#86bf84";
+    graph.color = "#EFEFEF";
     graph.negativeLineColor = "#9574a8";
-    graph.hideBulletsCount = 25;
+    graph.hideBulletsCount = 30;
     chart.addGraph(graph);
 
     // CURSOR
     chartCursor = new AmCharts.ChartCursor();
     chartCursor.cursorColor = '#9574a8';
     chartCursor.categoryBalloonColor = '#9574a8';
+    chartCursor.fontSize = 15;
     chartCursor.cursorPosition = "mouse";
     chartCursor.pan = true; // set it to false if you want the cursor to work in "select" mode
     chart.addChartCursor(chartCursor);
@@ -88,8 +104,10 @@ function createChart(){
     // SCROLLBAR
     var chartScrollbar = new AmCharts.ChartScrollbar();
     chartScrollbar.graph = graph;
+    chartScrollbar.fontSize = 15;
     chartScrollbar.autoGridCount = true;
-    chartScrollbar.scrollbarHeight = 25;
+    chartScrollbar.scrollbarHeight = 30;
+    chartScrollbar.backgroundAlpha = 0.2;
     chart.addChartScrollbar(chartScrollbar);
 
     // WRITE
@@ -118,8 +136,6 @@ function zoomChart() {
 function toggleGraphs(e){
     startDate = chart.startDate;
     endDate = chart.endDate;
-    console.log(startDate);
-    console.log(endDate);
     if (e.id === "day"){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
@@ -191,8 +207,10 @@ function graphDataGopher(type){
         url ="/analytics/get-log-jobs-" + type + "/";
             if ($('#search').val() != "" ) {
                 url += $('#search').val();
+                page = $('#search').val();
             }else{
                 url += $('option:selected').attr("data");
+                page = $('option:selected').attr("data");
             }
     }
 
