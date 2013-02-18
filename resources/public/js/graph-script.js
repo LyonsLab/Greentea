@@ -212,9 +212,9 @@ function graphDataDateSculptor(data){
     data.forEach(formatDate);
 
     function formatDate(element) {
-        var d = new Date(element['date'] * 1).toDateString();
-        d = new Date(d);
-        element['date'] = d;
+        var date = element.date.split("-");
+        date = new Date(date);
+        element['date'] = date;
     }
 }
 

@@ -3,28 +3,10 @@
             [clj-time.core :as time]
             [clj-time.coerce :as coerce]))
 
-(defn get-valid-epoch
-  "Returns a valid epoch timestamp."
-  [date]
-  ;(try (coerce/to-long (format/parse old-osm-format date))
-  ;  (catch IllegalArgumentException e
-  ;    (try (coerce/to-long (format/parse old-osm-format-2 date))
-  ;      (catch IllegalArgumentException e
-  (.getTime date))
-  ;))))
-
 (defn mold-timeseries-data-to-epoch
   "Changes timestamp data to epoch timestamp"
   [data]
-  (map #(get-valid-epoch (second (first %))) (identity data)))
-
-(defn mold-timeseries-data-to-epoch-days
-  "Rounds off milliseconds per entry to the epoch time of the start of it's
-  day"
-  [data]
-  (map
-    #(* 86400000 (long (/ (get-valid-epoch (second (first %))) 86400000)))
-    (identity data)))
+  (map #(.substring (str (second (first %))) 0 10) data))
 
 (defn format-data-for-graph
   "This function takes in dates and their counts and parses them into a JSON
