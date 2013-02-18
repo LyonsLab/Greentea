@@ -263,7 +263,7 @@ li.nav {
 #chart {
     border: 1px solid #A2A2A2;
     height: 530px;
-    background: rgba(239,239,239,0.3);
+    background: rgba(239,239,239,0.9);
     border-radius: 5px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
