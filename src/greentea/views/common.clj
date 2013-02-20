@@ -10,10 +10,11 @@
       "/analytics/css/reset.css"
       "/analytics/css/chosen.css"
       "/analytics/css/style.css"
+      "//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery.ui.all.css"
       "//fonts.googleapis.com/css?family=Open+Sans:400,600,800")
     (include-js
       "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
-      "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js")])
+      "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js")])
 
 (defpartial wrapper [& content]
   [:div#wrapper content])
@@ -49,7 +50,7 @@
     {:onchange "selectChart();"
       :data-placeholder "Choose a CoGe Page"}
     [:option {:data ""} ""]
-    [:option {:data ""} "Main 4 Jobs"]
+    [:option {:data ""} "Main Four Jobs"]
     [:option {:data "synmap"} "SynMap"]
     [:option {:data "synfind"} "SynFind"]
     [:option {:data "gevo"} "GEvo"]
@@ -61,7 +62,7 @@
 (defpartial search-box []
   [:span "Search:"
     [:input#search
-      {:onchange "searchChart()"}]])
+      {:oninput "autoComplete()"}]])
 
 (defpartial graph-page [& content]
   (html5
@@ -72,7 +73,7 @@
                   "/analytics/js/graph-script.js"
                   "/analytics/js/spinner.js")]
     [:body
-      {:onload "createChart()"}
+      {:onload "createSelect(); createChart()"}
       (page
         [:div#outer
           [:div#side-nav
@@ -103,6 +104,8 @@
                         });
                       })")
       (include-js "/analytics/js/lib/amcharts.js"
+                  "/analytics/js/lib/mousetrap.min.js"
+                  "/analytics/js/select-script.js"
                   "/analytics/js/lib/underscore-min.js")]))
 
 (defpartial day-page []

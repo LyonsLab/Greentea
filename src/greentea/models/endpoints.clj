@@ -35,6 +35,7 @@
   (nr/json (mu/accumulate-account-creations nil)))
 
 (defpage "/get-log-account-accumulated/:type" {:keys [type]}
+;(nr/status 203
   (nr/json (mu/accumulate-account-creations type)))
 
 (defpage "/get-log-account-day/" []
@@ -42,3 +43,9 @@
 
 (defpage "/get-log-account-day/:type" {:keys [type]}
   (nr/json (mu/day-account-creations type)))
+
+(defpage "/get-log-page-types/" []
+  (nr/json (cq/coge-page-types nil)))
+
+(defpage "/get-log-page-types/:type" {:keys [type]}
+  (nr/json (cq/coge-page-types type)))

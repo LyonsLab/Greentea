@@ -1,12 +1,13 @@
 var chart;
 var chartData = [];
+var page;
 var startDate;
 var endDate;
 
 function createChart(){
 
     $("#chart").html("")
-    generateChartData($(".active").attr('id'));
+        generateChartData($(".active").attr('id'));
 
     // SERIAL CHART
     chart = new AmCharts.AmSerialChart();
@@ -21,8 +22,8 @@ function createChart(){
 
     // listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
     chart.zoomOutOnDataUpdate = false
-    // while loading hack
-    var init = false;
+        // while loading hack
+        var init = false;
     chart.addListener("init", function (event) {
         if(!init) {
             $('#loader').hide();
@@ -38,6 +39,7 @@ function createChart(){
     categoryAxis.groupToPeriods = "DD";
     categoryAxis.minPeriod = "DD";
     categoryAxis.dashLength = 1;
+    categoryAxis.title = "Data for: " + page;
     categoryAxis.gridAlpha = 0.15;
     categoryAxis.autoGridCount = true;
     categoryAxis.position = "top";
@@ -91,12 +93,20 @@ function createChart(){
     chart.addChartScrollbar(chartScrollbar);
 
     // WRITE
-    chart.write("chart");
-    zoomChart();
+    if(chartData.length > 0){
+        chart.write("chart");
+        zoomChart();
+        setPanSelect();
+    } else {
+        $('#chart').html("</br></br></br>"
+                + "</br></br><h3 style='text-align: center;'>"
+                + $('#search').val()
+                + ": No Data</br></br>Try Again</h3>");
+    }
 };
 
 function setPanSelect() {
-    if (document.getElementById("rb1").checked) {
+    if ($("#rb1").prop("checked")) {
         chartCursor.pan = false;
         chartCursor.zoomable = true;
     } else {
@@ -107,17 +117,15 @@ function setPanSelect() {
 
 function zoomChart() {
     if (startDate && endDate){
-    chart.zoomToDates(startDate, endDate);
+        chart.zoomToDates(startDate, endDate);
     } else {
-    chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
+        chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
     }
 }
 
 function toggleGraphs(e){
     startDate = chart.startDate;
     endDate = chart.endDate;
-    console.log(startDate);
-    console.log(endDate);
     if (e.id === "day"){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
@@ -171,10 +179,6 @@ function generateChartData(type){
                 response = _.rest(response);
             }
         }
-    }else{
-        $('#chart').html("</br></br></br></br></br><h3>"
-                    + $('#search').val()
-                    + ": No Data</br></br>Try Again</h3>");
     }
 }
 
@@ -185,22 +189,30 @@ function graphDataGopher(type){
 
     if($('option:selected').attr("data") == 'user') {
         url = "/analytics/get-log-account-" + type + "/";
+        page = "User Additions";
     }else{
         url ="/analytics/get-log-jobs-" + type + "/";
-            if ($('#search').val() != "" ) {
-                url += $('#search').val();
-            }else{
-                url += $('option:selected').attr("data");
+        if ($('#search').val() != "" ) {
+            url += $('#search').val();
+            page = $('#search').val();
+        }else{
+            url += $('option:selected').attr("data");
+            if ($('option:selected').text()) {
+                page = $('option:selected').text();
+            } else {
+                page = "Main Four Jobs";
             }
+        }
     }
 
     request = $.ajax({
         url: url,
-        async: false,
-        contentType: "application/json",
-        success: function(data){
-            response = data;
-        }
+            async: false,
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data){
+                response = data;
+            }
     });
 
     graphDataDateSculptor(response);
@@ -220,14 +232,18 @@ function graphDataDateSculptor(data){
 
 function searchChart(){
     $(".chzn-select").val('').trigger("liszt:updated");
-    startDate = chart.startDate;
-    endDate = chart.endDate;
-    createChart()
+    if (startDate > chart.startDate){
+        startDate = chart.startDate;
+        endDate = chart.endDate;
+    }
+    createChart();
 }
 
 function selectChart(){
     $('#search').val("");
-    startDate = chart.startDate;
-    endDate = chart.endDate;
-    createChart()
+    if (startDate > chart.startDate){
+        startDate = chart.startDate;
+        endDate = chart.endDate;
+    }
+    createChart();
 }

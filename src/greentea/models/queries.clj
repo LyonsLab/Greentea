@@ -26,12 +26,10 @@
   "Returns all data from the CoGe database useful
   for representing unique jobs ran over time."
   (select log
-    (group :link)
     (fields :time)
-    (order :time)
     (where
       (and
-        (> :time 0)
+        (> :time "0")
         (cond (nil? type)
           (or (like :page "GeVo%")
               (like :page "SynMap%")
@@ -51,3 +49,16 @@
         (cond (nil? type)
           (= :description "create user")
           :else (= :description "create user group"))))))
+
+(defn coge-page-types [type]
+  "Returns all distinct page types from the log table in the coge database."
+  (select log
+    (modifier "distinct")
+    (order :page)
+    (fields :page)
+    (where
+      (and
+        (> :time 0)
+        (cond (nil? type)
+          (like :page "%")
+          :else (like :page (str type "%")))))))
