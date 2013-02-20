@@ -107,6 +107,7 @@
       (include-js "/analytics/js/lib/amcharts.js"
                   "/analytics/js/lib/mousetrap.min.js"
                   "/analytics/js/select-script.js"
+                  "/analytics/js/mousewheel-script.js"
                   "/analytics/js/lib/underscore-min.js")]))
 
 (defpartial day-page []
