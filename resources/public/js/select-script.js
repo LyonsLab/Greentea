@@ -62,6 +62,18 @@ function autocompleteSuccess(data){
     });
 }
 
+Mousetrap.bind(['p'], function() {
+    $('#rb2').prop('checked', true);
+    $('#rb1').prop('checked', false);
+    setPanSelect();
+});
+
+Mousetrap.bind(['s'], function() {
+    $('#rb1').prop('checked', true);
+    $('#rb2').prop('checked', false);
+    setPanSelect();
+});
+
 $(document).keydown(function(e){
     if (e.keyCode == 13) {
         searchChart();
