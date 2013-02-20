@@ -48,9 +48,11 @@
   padding: 0 0 0 8px;
   color: #444444;
   text-decoration: none;
+    width: 190px;
+    margin: 0px auto;
 }
 .chzn-container-single .chzn-default {
-  color: #999;
+  color: #333;
 }
 .chzn-container-single .chzn-single span {
   margin-right: 26px;
