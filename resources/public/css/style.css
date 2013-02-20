@@ -305,3 +305,13 @@ g:nth-child(16) {
     position: relative;
     bottom: 200px;
 }
+
+/*jQuery UI Autocomplete 1.8.24*/
+
+.ui-menu {
+    color: #333;
+    background: #EEE;
+    border: 1px solid #333;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}

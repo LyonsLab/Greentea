@@ -10,11 +10,12 @@
       "/analytics/css/reset.css"
       "/analytics/css/chosen.css"
       "/analytics/css/style.css"
-      "//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery.ui.all.css"
+      "/analytics/css/jquery-ui-1.10.1.custom.min.css"
       "//fonts.googleapis.com/css?family=Open+Sans:400,600,800")
     (include-js
-      "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
-      "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js")])
+      "/analytics/js/lib/jquery-1.9.1.min.js"
+      "/analytics/js/lib/jquery-ui-1.10.1.custom.min.js"
+)])
 
 (defpartial wrapper [& content]
   [:div#wrapper content])
@@ -90,11 +91,11 @@
             [:div#chart-bottom
               [:div#controls
                 [:input#rb1
-                  {:type "radio" :name "dayGroup" :onClick "setPanSelect()"}
+                  {:type "radio" :name "dayGroup" :onChange "setPanSelect()"}
                     "Select&nbsp&nbsp"]
-                [:input
+                [:input#rb2
                   {:type "radio" :checked "true"
-                  :name "dayGroup" :onClick "setPanSelect()"} "Pan"]]
+                  :name "dayGroup" :onChange "setPanSelect()"} "Pan"]]
               [:h5#starting "Data Starting from: " [:span#firstDate]]]]
           content
           [:div#loader]])
