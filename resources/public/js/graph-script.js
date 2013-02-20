@@ -19,6 +19,10 @@ function createChart(){
     chart.dataProvider = chartData;
     chart.categoryField = "date";
     chart.balloon.bulletSize = 5;
+    chart.balloon.borderColor = "#333";
+    chart.balloon.color = "#333";
+    chart.balloon.borderAlpha = 0.65;
+    chart.balloon.borderThickness = 1;
 
     // listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
     chart.zoomOutOnDataUpdate = false
@@ -33,17 +37,16 @@ function createChart(){
 
     // AXES
     var categoryAxis = chart.categoryAxis;
-    // our data is date-based, so we set parseDates to true
     categoryAxis.parseDates = true;
-    // our data is daily, so we set minPeriod to DD
+    categoryAxis.gridAlpha = 0.15;
+    categoryAxis.axisAlpha = 0.35;
+    categoryAxis.axisColor = "#333";
     categoryAxis.groupToPeriods = "DD";
     categoryAxis.minPeriod = "DD";
     categoryAxis.dashLength = 1;
     categoryAxis.title = "Data for: " + page;
-    categoryAxis.gridAlpha = 0.15;
     categoryAxis.autoGridCount = true;
     categoryAxis.position = "top";
-    categoryAxis.axisColor = "#CACACA";
     categoryAxis.dateFormats = [{
             period: "DD",
             format: "DD"
@@ -58,9 +61,10 @@ function createChart(){
             format: "YYYY"
         }];
 
-    // value
     var valueAxis = new AmCharts.ValueAxis();
     valueAxis.dashLength = 1;
+    valueAxis.axisColor = "#333";
+    valueAxis.axisAlpha = 0.35;
     chart.addValueAxis(valueAxis);
 
     // GRAPH
@@ -90,6 +94,7 @@ function createChart(){
     chartScrollbar.graph = graph;
     chartScrollbar.autoGridCount = true;
     chartScrollbar.scrollbarHeight = 25;
+    chartScrollbar.color = "#333";
     chart.addChartScrollbar(chartScrollbar);
 
     // WRITE
@@ -111,6 +116,7 @@ function setPanSelect() {
         chartCursor.zoomable = true;
     } else {
         chartCursor.pan = true;
+        chartCursor.zoomable = false;
     }
     chart.validateNow();
 }
@@ -119,7 +125,7 @@ function zoomChart() {
     if (startDate && endDate){
         chart.zoomToDates(startDate, endDate);
     } else {
-        chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
+        chart.zoomToIndexes(chartData.length - 50, chartData.length - 1);
     }
 }
 
