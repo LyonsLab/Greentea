@@ -78,7 +78,7 @@ function createChart(){
     graph.lineThickness = 2;
     graph.lineColor = "#86bf84";
     graph.negativeLineColor = "#9574a8";
-    graph.hideBulletsCount = 25;
+    graph.hideBulletsCount = 35;
     chart.addGraph(graph);
 
     // CURSOR
