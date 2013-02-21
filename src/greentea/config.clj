@@ -27,4 +27,10 @@
 (def dbpass (:DBPASS config))
 (def dbhost (:DBHOST config))
 (def dbport (:DBPORT config))
-(def jettyport (:ANALYTICS_PORT config))
+
+(defn get-port []
+  (cond (nil? (:ANALYTICS_PORT config))
+    3456
+  :else
+    (read-string (:ANALYTICS_PORT config))))
+
