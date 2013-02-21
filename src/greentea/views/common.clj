@@ -70,11 +70,9 @@
     [:head
       (global "Graph - by Day")
       (include-js "js/lib/spin.min.js"
-                  "js/lib/chosen.jquery.min.js"
-                  "js/graph-script.js"
                   "js/spinner.js")]
     [:body
-      {:onload "createSelect(); createChart()"}
+      {:onload "init()"}
       (page
         [:div#outer
           [:div#side-nav
@@ -104,11 +102,13 @@
                           no_results_text: 'No results matched'
                         });
                       })")
-      (include-js "js/lib/amcharts.js"
+      (include-js "js/lib/chosen.jquery.min.js"
                   "js/lib/mousetrap.min.js"
+                  "js/lib/amcharts.js"
+                  "js/lib/underscore-min.js"
+                  "js/graph-script.js"
                   "js/select-script.js"
-                  "js/mousewheel-script.js"
-                  "js/lib/underscore-min.js")]))
+                  "js/mousewheel-script.js")]))
 
 (defpartial day-page []
   (javascript-tag "$('#day').addClass('active')"))

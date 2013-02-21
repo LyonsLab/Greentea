@@ -213,12 +213,12 @@ function graphDataGopher(type){
 
     request = $.ajax({
         url: url,
-            async: false,
-            contentType: "application/json",
-            dataType: "json",
-            success: function(data){
-                response = data;
-            }
+        async: false,
+        contentType: "application/json",
+        dataType: "json",
+        success: function(data){
+            response = data;
+        }
     });
 
     graphDataDateSculptor(response);

@@ -1,3 +1,9 @@
+function init(){
+    $('.chzn-select').chosen({ no_results_text: 'No results matched'});
+    createSelect();
+    createChart();
+}
+
 function createSelect() {
     pageTypeDataGopher();
 }
@@ -30,7 +36,10 @@ function getOptsSuccess(data) {
 }
 
 function dataFail() {
-    console.log("Failure to receive data");
+    $('#chart').html("</br></br></br>"
+            + "</br></br><h3 style='text-align: center;'>"
+            + $('#search').val()
+            + ": No Data</br></br>Try Again</h3>");
 }
 
 function autoComplete(){

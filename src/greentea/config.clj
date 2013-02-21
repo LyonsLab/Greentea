@@ -20,7 +20,7 @@
         (filter (comp not nil?)
           (map #(first %)
             (parse #(csv \,)
-              (slurp "/home/mbomhoff/public/CoGe/coge.conf"))))))))
+              (slurp "/opt/apache2/CoGe/coge.conf"))))))))
 
 (def dbname (:DBNAME config))
 (def dbuser (:DBUSER config))
