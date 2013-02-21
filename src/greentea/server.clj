@@ -9,7 +9,7 @@
 (defn -main [& m]
   (db-config)
   (let [mode (keyword (or (first m) :dev))
-        port (int 3456)]
+        port (read-string jettyport)]
     (server/start port {:mode mode
                         :ns 'greentea})))
 
