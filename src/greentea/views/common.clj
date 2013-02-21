@@ -7,14 +7,14 @@
   [:head
     [:title (str "CoGe Analytics - " title)]
     (include-css
-      "/analytics/css/reset.css"
-      "/analytics/css/chosen.css"
-      "/analytics/css/style.css"
-      "/analytics/css/jquery-ui-1.10.1.custom.min.css"
+      "css/reset.css"
+      "css/chosen.css"
+      "css/style.css"
+      "css/jquery-ui-1.10.1.custom.min.css"
       "//fonts.googleapis.com/css?family=Open+Sans:400,600,800")
     (include-js
-      "/analytics/js/lib/jquery-1.9.1.min.js"
-      "/analytics/js/lib/jquery-ui-1.10.1.custom.min.js"
+      "js/lib/jquery-1.9.1.min.js"
+      "js/lib/jquery-ui-1.10.1.custom.min.js"
 )])
 
 (defpartial wrapper [& content]
@@ -69,17 +69,17 @@
   (html5
     [:head
       (global "Graph - by Day")
-      (include-js "/analytics/js/lib/spin.min.js"
-                  "/analytics/js/lib/chosen.jquery.min.js"
-                  "/analytics/js/graph-script.js"
-                  "/analytics/js/spinner.js")]
+      (include-js "js/lib/spin.min.js"
+                  "js/lib/chosen.jquery.min.js"
+                  "js/graph-script.js"
+                  "js/spinner.js")]
     [:body
       {:onload "createSelect(); createChart()"}
       (page
         [:div#outer
           [:div#side-nav
             (image {:id "logo" :alt "CoGe Logo"}
-              "/analytics/img/logo.png")
+              "img/logo.png")
             [:br][:br]
             (search-box)
             [:br][:br]
@@ -104,11 +104,11 @@
                           no_results_text: 'No results matched'
                         });
                       })")
-      (include-js "/analytics/js/lib/amcharts.js"
-                  "/analytics/js/lib/mousetrap.min.js"
-                  "/analytics/js/select-script.js"
-                  "/analytics/js/mousewheel-script.js"
-                  "/analytics/js/lib/underscore-min.js")]))
+      (include-js "js/lib/amcharts.js"
+                  "js/lib/mousetrap.min.js"
+                  "js/select-script.js"
+                  "js/mousewheel-script.js"
+                  "js/lib/underscore-min.js")]))
 
 (defpartial day-page []
   (javascript-tag "$('#day').addClass('active')"))

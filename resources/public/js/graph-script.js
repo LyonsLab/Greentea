@@ -11,7 +11,7 @@ function createChart(){
 
     // SERIAL CHART
     chart = new AmCharts.AmSerialChart();
-    chart.pathToImages = "/analytics/img/";
+    chart.pathToImages = "img/";
     chart.zoomOutButton = {
         backgroundColor: '#000000',
         backgroundAlpha: 0.15
@@ -194,10 +194,10 @@ function graphDataGopher(type){
     var url;
 
     if($('option:selected').attr("data") == 'user') {
-        url = "/analytics/get-log-account-" + type + "/";
+        url = "get-log-account-" + type + "/";
         page = "User Additions";
     }else{
-        url ="/analytics/get-log-jobs-" + type + "/";
+        url ="get-log-jobs-" + type + "/";
         if ($('#search').val() != "" ) {
             url += $('#search').val();
             page = $('#search').val();

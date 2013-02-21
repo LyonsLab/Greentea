@@ -5,7 +5,7 @@ function createSelect() {
 function pageTypeDataGopher() {
     var response;
     var ajax = $.ajax({
-        url: "/analytics/get-log-page-types/" ,
+        url: "get-log-page-types/" ,
         datatype: "json",
         success: function(data){
             response = data;
@@ -40,7 +40,7 @@ function autoComplete(){
 function autocompleteDataGopher() {
     var response;
     var ajax = $.ajax({
-        url: "/analytics/get-log-page-types/" + $('#search').val(),
+        url: "get-log-page-types/" + $('#search').val(),
         datatype: "json",
         success: function(data){
             response = data;
