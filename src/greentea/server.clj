@@ -1,6 +1,6 @@
 (ns greentea.server
   (:gen-class)
-  (:use [greentea.config :only [listen-port]]
+  (:use [greentea.config]
         [greentea.db])
   (:require [noir.server :as server]))
 
@@ -9,7 +9,6 @@
 (defn -main [& m]
   (db-config)
   (let [mode (keyword (or (first m) :dev))
-        ;port (listen-port)]
         port (int 3456)]
     (server/start port {:mode mode
                         :ns 'greentea})))
