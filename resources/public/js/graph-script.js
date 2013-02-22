@@ -151,11 +151,12 @@ function generateChartData(type){
 
         $("#firstDate").html("" + firstDate);
 
-        if(type === "day") {
-            var daysBetween = Math.round(Math.abs(firstDate - new Date())/8640000);
-            for(var i = 0; i <= daysBetween; i++) {
-                var newDate = new Date(firstDate);
-                newDate.setDate(newDate.getDate() + i);
+        var daysBetween = Math.round(Math.abs(firstDate - new Date())/8640000);
+        var lastCount = 0;
+        for(var i = 0; i <= daysBetween; i++) {
+            var newDate = new Date(firstDate);
+            newDate.setDate(newDate.getDate() + i);
+            if(type === "day") {
                 for(var j = 0; j < response.length; j++){
                     if(response[j]['date'].getTime() == newDate.getTime()){
                         chartData.push({
@@ -171,14 +172,24 @@ function generateChartData(type){
                         });
                     }
                 }
-            }
-        }else if(type === "accumulated") {
-            for(var j = 0; j < response.length; j++){
-                chartData.push({
-                    date:  response[j]['date'],
-                    count: response[j]['count']
-                });
-                response = _.rest(response);
+            }else if(type === "accumulated") {
+                for(var j = 0; j < response.length; j++){
+                    if(response[j]['date'].getTime() == newDate.getTime()){
+                        chartData.push({
+                            date:  response[j]['date'],
+                            count: response[j]['count']
+                        });
+                        lastCount = response[j]['count'];
+                        response = _.rest(response);
+                        break;
+
+                    } else {
+                        chartData.push({
+                            date:  newDate,
+                            count: lastCount
+                        });
+                    }
+                }
             }
         }
     }
