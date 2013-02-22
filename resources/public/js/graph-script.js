@@ -1,13 +1,14 @@
 var chart;
 var chartData = [];
 var page;
-var startDate;
-var endDate;
+var start;
+var end;
 
 function createChart(){
 
     $("#chart").html("")
         generateChartData($(".active").attr('id'));
+
 
     // SERIAL CHART
     chart = new AmCharts.AmSerialChart();
@@ -32,8 +33,7 @@ function createChart(){
         if(!init) {
             $('#loader').hide();
             init = true;
-        }
-    });
+        }});
 
     // AXES
     var categoryAxis = chart.categoryAxis;
@@ -41,9 +41,9 @@ function createChart(){
     categoryAxis.gridAlpha = 0.15;
     categoryAxis.axisAlpha = 0.35;
     categoryAxis.axisColor = "#333";
-    categoryAxis.groupToPeriods = "DD";
     categoryAxis.minPeriod = "DD";
     categoryAxis.dashLength = 1;
+    categoryAxis.equalSpacing = true;
     categoryAxis.title = "Data for: " + page;
     categoryAxis.autoGridCount = true;
     categoryAxis.position = "top";
@@ -100,6 +100,9 @@ function createChart(){
     // WRITE
     if(chartData.length > 0){
         chart.write("chart");
+        console.log("charter");
+        console.log(start);
+        console.log(end);
         zoomChart();
         setPanSelect();
     } else {
@@ -122,16 +125,22 @@ function setPanSelect() {
 }
 
 function zoomChart() {
-    if (startDate && endDate){
-        chart.zoomToDates(startDate, endDate);
+    if(! (start && end)){
+        console.log("wah");
+        start = chartData.length - 10;
+        end = chartData.length - 1;
+        chart.zoomToIndexes(start, end);
     } else {
-        chart.zoomToIndexes(chartData.length - 50, chartData.length - 1);
+    chart.zoomToDates(start, end);
     }
 }
 
 function toggleGraphs(e){
-    startDate = chart.startDate;
-    endDate = chart.endDate;
+    start = new Date(chart.startTime);
+    end = new Date(chart.endTime);
+    console.log("toggler");
+    console.log(start);
+    console.log(end);
     if (e.id === "day"){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
@@ -238,18 +247,14 @@ function graphDataDateSculptor(data){
 
 function searchChart(){
     $(".chzn-select").val('').trigger("liszt:updated");
-    if (startDate > chart.startDate){
-        startDate = chart.startDate;
-        endDate = chart.endDate;
-    }
+    start = new Date(chart.startTime);
+    end = new Date(chart.endTime);
     createChart();
 }
 
 function selectChart(){
     $('#search').val("");
-    if (startDate > chart.startDate){
-        startDate = chart.startDate;
-        endDate = chart.endDate;
-    }
+    start = new Date(chart.startTime);
+    end = new Date(chart.endTime);
     createChart();
 }
