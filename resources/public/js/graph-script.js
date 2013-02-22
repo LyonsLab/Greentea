@@ -6,9 +6,8 @@ var end;
 
 function createChart(){
 
-    $("#chart").html("")
-        generateChartData($(".active").attr('id'));
-
+    $("#chart").html("");
+    generateChartData($(".active").attr('id'));
 
     // SERIAL CHART
     chart = new AmCharts.AmSerialChart();
@@ -24,16 +23,7 @@ function createChart(){
     chart.balloon.color = "#333";
     chart.balloon.borderAlpha = 0.65;
     chart.balloon.borderThickness = 1;
-
-    // listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
     chart.zoomOutOnDataUpdate = false
-        // while loading hack
-        var init = false;
-    chart.addListener("init", function (event) {
-        if(!init) {
-            $('#loader').hide();
-            init = true;
-        }});
 
     // AXES
     var categoryAxis = chart.categoryAxis;
@@ -125,22 +115,19 @@ function setPanSelect() {
 }
 
 function zoomChart() {
+    var day = 86400000;
     if(! (start && end)){
-        console.log("wah");
-        start = chartData.length - 10;
-        end = chartData.length - 1;
-        chart.zoomToIndexes(start, end);
+        start = new Date(chartData[chartData.length - 1].date - (day * 10));
+        end = new Date(chartData[chartData.length - 1].date);
+        chart.zoomToDates(start, end);
     } else {
     chart.zoomToDates(start, end);
     }
 }
 
 function toggleGraphs(e){
-    start = new Date(chart.startTime);
-    end = new Date(chart.endTime);
-    console.log("toggler");
-    console.log(start);
-    console.log(end);
+    start = new Date(chart.categoryAxis.startTime);
+    end = new Date(chart.categoryAxis.endTime);
     if (e.id === "day"){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
@@ -247,14 +234,10 @@ function graphDataDateSculptor(data){
 
 function searchChart(){
     $(".chzn-select").val('').trigger("liszt:updated");
-    start = new Date(chart.startTime);
-    end = new Date(chart.endTime);
     createChart();
 }
 
 function selectChart(){
     $('#search').val("");
-    start = new Date(chart.startTime);
-    end = new Date(chart.endTime);
     createChart();
 }

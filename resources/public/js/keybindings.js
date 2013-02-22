@@ -20,20 +20,24 @@ $(document).keydown(function(e){
 
 //Arrow Key navigation control keybindings
 Mousetrap.bind(['up'], function() {
+    event.preventDefault();
     zoomIn();
 });
 
 Mousetrap.bind(['down'], function() {
+    event.preventDefault();
     zoomOut();
 });
 
 Mousetrap.bind(['left'], function() {
+    event.preventDefault();
     if (chart.startIndex > 0) {
         chart.zoomToIndexes(chart.startIndex - 5, chart.endIndex - 5);
     }
 });
 
 Mousetrap.bind(['right'], function() {
+    event.preventDefault();
     var end = chart.categoryAxis.data.length;
     if (chart.endIndex -1 < end) {
         chart.zoomToIndexes(chart.startIndex + 5, chart.endIndex + 5);

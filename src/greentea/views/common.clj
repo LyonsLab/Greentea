@@ -68,9 +68,7 @@
 (defpartial graph-page [& content]
   (html5
     [:head
-      (global "Graph - by Day")
-      (include-js "js/lib/spin.min.js"
-                  "js/spinner.js")]
+      (global "Graph - by Day")]
     [:body
       {:onload "init()"}
       (page
@@ -95,8 +93,7 @@
                   {:type "radio" :checked "true"
                   :name "dayGroup" :onChange "setPanSelect()"} "Pan"]]
               [:h5#starting "Data Starting from: " [:span#firstDate]]]]
-          content
-          [:div#loader]])
+          content])
       (javascript-tag "$(document).ready(function(){
                         $('.chzn-select').chosen({
                           no_results_text: 'No results matched'
