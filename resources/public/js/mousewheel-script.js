@@ -26,24 +26,3 @@ function zoomOut() {
         chart.zoomToIndexes(chart.startIndex -1, chart.endIndex);
     }
 }
-
-Mousetrap.bind(['up'], function() {
-    zoomIn();
-});
-
-Mousetrap.bind(['down'], function() {
-    zoomOut();
-});
-
-Mousetrap.bind(['left'], function() {
-    if (chart.startIndex > 0) {
-        chart.zoomToIndexes(chart.startIndex - 5, chart.endIndex - 5);
-    }
-});
-
-Mousetrap.bind(['right'], function() {
-    var end = chart.categoryAxis.data.length;
-    if (chart.endIndex -1 < end) {
-        chart.zoomToIndexes(chart.startIndex + 5, chart.endIndex + 5);
-    }
-});

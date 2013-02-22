@@ -37,54 +37,7 @@ function getOptsSuccess(data) {
 
 function dataFail() {
     $('#chart').html("</br></br></br>"
-            + "</br></br><h3 style='text-align: center;'>"
-            + $('#search').val()
-            + ": No Data</br></br>Try Again</h3>");
+        + "</br></br><h3 style='text-align: center;'>"
+        + $('#search').val()
+        + ": No Data</br></br>Try Again</h3>");
 }
-
-function autoComplete(){
-    autocompleteDataGopher();
-}
-
-function autocompleteDataGopher() {
-    var response;
-    var ajax = $.ajax({
-        url: "get-log-page-types/" + $('#search').val(),
-        datatype: "json",
-        success: function(data){
-            response = data;
-        }})
-         .done(function() { autocompleteSuccess(response); })
-         .fail(function() { dataFail(); });
-}
-
-function autocompleteSuccess(data){
-    var acArray = [];
-    data.forEach(parseData);
-    function parseData(element) {
-        acArray.push(element.page);
-    }
-    $("#search").autocomplete({
-        source: acArray,
-        minLength: 0,
-        delay: 0
-    });
-}
-
-Mousetrap.bind(['p'], function() {
-    $('#rb2').prop('checked', true);
-    $('#rb1').prop('checked', false);
-    setPanSelect();
-});
-
-Mousetrap.bind(['s'], function() {
-    $('#rb1').prop('checked', true);
-    $('#rb2').prop('checked', false);
-    setPanSelect();
-});
-
-$(document).keydown(function(e){
-    if (e.keyCode == 13) {
-        searchChart();
-    }
-});

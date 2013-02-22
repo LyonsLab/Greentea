@@ -108,6 +108,8 @@
                   "js/lib/underscore-min.js"
                   "js/graph-script.js"
                   "js/select-script.js"
+                  "js/autocomplete-script.js"
+                  "js/keybindings.js"
                   "js/mousewheel-script.js")]))
 
 (defpartial day-page []
