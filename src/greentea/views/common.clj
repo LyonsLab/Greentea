@@ -85,7 +85,7 @@
           ]
           [:div#inner
             (graph-nav)
-            [:div#chart]
+            [:div#chart {:onMousewheel "handle(event)"}]
             [:div#chart-bottom
               [:div#controls
                 [:input#rb1

@@ -1,30 +1,13 @@
-function wheel(event){
-    var delta = 0;
-    if (!event) event = window.event;
-    if (event.wheelDelta) {
-        delta = event.wheelDelta;
-        if (window.opera) delta = -delta;
-    } else if (event.detail) {
-        delta = -event.detail/3;
+function handle(delta) {
+    delta.preventDefault();
+    if (delta.wheelDelta < 0) {
+        console.log("out");
+        zoomOut();
+    } else {
+        console.log("in");
+        zoomIn();
     }
-    if (delta)
-        handle(delta);
-    if (event.preventDefault)
-        event.preventDefault();
-    event.returnValue = false;
 }
-
-if (window.addEventListener)
-    window.addEventListener('DOMMouseScroll', wheel, false);
-    window.onmousewheel = document.onmousewheel = wheel;
-
-    function handle(delta) {
-        if (delta < 0) {
-            zoomOut();
-        } else {
-            zoomIn();
-        }
-    }
 
 function zoomIn() {
     var end = chart.categoryAxis.data.length;
