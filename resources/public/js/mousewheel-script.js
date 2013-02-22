@@ -1,10 +1,7 @@
 function handle(delta) {
-    delta.preventDefault();
     if (delta.wheelDelta < 0) {
-        console.log("out");
         zoomOut();
     } else {
-        console.log("in");
         zoomIn();
     }
 }
