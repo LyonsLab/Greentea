@@ -38,8 +38,7 @@ Mousetrap.bind(['left'], function() {
 
 Mousetrap.bind(['right'], function() {
     event.preventDefault();
-    var end = chart.categoryAxis.data.length;
-    if (chart.endIndex -1 < end) {
+    if (chart.endIndex + 2 < chart.categoryAxis.data.length) {
         chart.zoomToIndexes(chart.startIndex + 5, chart.endIndex + 5);
     }
 });
