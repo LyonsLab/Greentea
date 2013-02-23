@@ -90,9 +90,6 @@ function createChart(){
     // WRITE
     if(chartData.length > 0){
         chart.write("chart");
-        console.log("charter");
-        console.log(start);
-        console.log(end);
         zoomChart();
         setPanSelect();
     } else {
@@ -148,48 +145,29 @@ function generateChartData(type){
     var response = graphDataGopher(type);
     if (response[0]){
         var firstDate = response[0]['date'];
-
         $("#firstDate").html("" + firstDate);
-
         var daysBetween = Math.round(Math.abs(firstDate - new Date())/8640000);
         var lastCount = 0;
-        for(var i = 0; i <= daysBetween; i++) {
+        for(var i = 0; i <= daysBetween && response.length; i++) {
             var newDate = new Date(firstDate);
             newDate.setDate(newDate.getDate() + i);
-            if(type === "day") {
-                for(var j = 0; j < response.length; j++){
-                    if(response[j]['date'].getTime() == newDate.getTime()){
-                        chartData.push({
-                            date:  response[j]['date'],
-                            count: response[j]['count']
-                        });
-                        response = _.rest(response);
-                        break;
-                    } else {
-                        chartData.push({
-                            date:  newDate,
-                            count: 0
-                        });
-                    }
-                }
+            if(response[0]['date'].getTime() == newDate.getTime()){
+                chartData.push({
+                    date:  response[0]['date'],
+                    count: response[0]['count']
+                });
+                lastCount = response[0]['count'];
+                response = _.rest(response);
+            } else if(type === "day") {
+                chartData.push({
+                    date:  newDate,
+                    count: 0
+                });
             }else if(type === "accumulated") {
-                for(var j = 0; j < response.length; j++){
-                    if(response[j]['date'].getTime() == newDate.getTime()){
-                        chartData.push({
-                            date:  response[j]['date'],
-                            count: response[j]['count']
-                        });
-                        lastCount = response[j]['count'];
-                        response = _.rest(response);
-                        break;
-
-                    } else {
-                        chartData.push({
-                            date:  newDate,
-                            count: lastCount
-                        });
-                    }
-                }
+                chartData.push({
+                    date:  newDate,
+                    count: lastCount
+                });
             }
         }
     }
