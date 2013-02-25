@@ -11,7 +11,7 @@
       "css/chosen.css"
       "css/style.css"
       "css/jquery-ui-1.10.1.custom.min.css"
-      "//fonts.googleapis.com/css?family=Open+Sans:400,600,800")
+      "//fonts.googleapis.com/css?family=Lato:100,300,400,700")
     (include-js
       "js/lib/jquery-1.9.1.min.js"
       "js/lib/jquery-ui-1.10.1.custom.min.js"
@@ -61,9 +61,10 @@
     [:option {:data "user"} "User Additions"]])
 
 (defpartial search-box []
-  [:span "Search:"
-    [:input#search
-      {:oninput "autoComplete()"}]])
+  [:input#search
+    {:oninput "autoComplete()" :onBlur "searchChart()"}]
+  (image {:id "search-icon"}
+                "img/search.png"))
 
 (defpartial graph-page [& content]
   (html5
@@ -74,9 +75,9 @@
       (page
         [:div#outer
           [:div#side-nav
-            (image {:id "logo" :alt "CoGe Logo"}
-              "img/logo.png")
-            [:br][:br]
+            [:div#logo "CoGe"]
+            [:div#subheader "Analytics"]
+            [:hr#logo-hr]
             (search-box)
             [:br][:br]
             (select-box)
