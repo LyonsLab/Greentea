@@ -1,6 +1,5 @@
 *.DS_Store
 .lein-repl-history
-/src/Greentea/db.clj
 pom.xml
 *jar
 /lib/
@@ -16,8 +15,8 @@ conrad.log
 /bin/
 /.lein-plugins/
 target/*
+logs/*
 *.swp
 *.swo
 *.un~
-/target/
 *.swn
