@@ -102,7 +102,7 @@
                       })")
       (include-js "js/lib/chosen.jquery.min.js"
                   "js/lib/mousetrap.min.js"
-                  "js/lib/amcharts.js"
+                  "js/lib/amstock.js"
                   "js/lib/underscore-min.js"
                   "js/graph-script.js"
                   "js/select-script.js"
