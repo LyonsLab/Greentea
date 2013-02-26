@@ -7,19 +7,21 @@ function handle(delta) {
 }
 
 function zoomIn() {
-    var end = chart.categoryAxis.data.length;
-    if (chart.endIndex - 2 > chart.startIndex && chart.endIndex < end) {
-        chart.zoomToIndexes(chart.startIndex + 1, chart.endIndex - 1);
+    var graph = chart.panels[0].graphs[0];
+    var end = graph.data.length;
+    if (graph.end - 2 > graph.start && graph.end < end) {
+        chart.panels[0].zoomToIndexes(graph.start + 1, graph.end - 1);
     }
 }
 
 function zoomOut() {
-    var end = chart.categoryAxis.data.length;
-    if (chart.startIndex > 0 && chart.endIndex < end) {
-        chart.zoomToIndexes(chart.startIndex - 1, chart.endIndex + 1);
-    } else if (chart.endIndex < end){
-        chart.zoomToIndexes(chart.startIndex, chart.endIndex + 1);
+    var graph = chart.panels[0].graphs[0];
+    var end = graph.data.length;
+    if (graph.start > 0 && graph.end < end) {
+        chart.panels[0].zoomToIndexes(graph.start - 1, graph.end + 1);
+    } else if (graph.end < end){
+        chart.panels[0].zoomToIndexes(graph.start, graph.end + 1);
     } else {
-        chart.zoomToIndexes(chart.startIndex -1, chart.endIndex);
+        chart.panels[0].zoomToIndexes(graph.start -1, graph.end);
     }
 }

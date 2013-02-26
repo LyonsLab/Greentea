@@ -104,7 +104,7 @@
                   "js/lib/mousetrap.min.js"
                   "js/lib/amstock.js"
                   "js/lib/underscore-min.js"
-                  "js/graph-script.js"
+                  "js/graph-script2.js"
                   "js/select-script.js"
                   "js/autocomplete-script.js"
                   "js/keybindings.js"

@@ -30,15 +30,17 @@ Mousetrap.bind(['down'], function() {
 });
 
 Mousetrap.bind(['left'], function() {
+    var graph = chart.panels[0].graphs[0];
     event.preventDefault();
-    if (chart.startIndex > 0) {
-        chart.zoomToIndexes(chart.startIndex - 5, chart.endIndex - 5);
+    if (graph.start > 0) {
+        chart.panels[0].zoomToIndexes(graph.start - 5, graph.end - 5);
     }
 });
 
 Mousetrap.bind(['right'], function() {
+    var graph = chart.panels[0].graphs[0];
     event.preventDefault();
-    if (chart.endIndex + 2 < chart.categoryAxis.data.length) {
-        chart.zoomToIndexes(chart.startIndex + 5, chart.endIndex + 5);
+    if (graph.end + 2 < graph.data.length) {
+        chart.panels[0].zoomToIndexes(graph.start + 5, graph.end + 5);
     }
 });
