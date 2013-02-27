@@ -1,7 +1,7 @@
 var chart;
 var start;
 var end;
-var dataSets = [];
+var chartDatas = [];
 
 function generateChartData(type) {
     chartData = [];
@@ -38,41 +38,25 @@ function generateChartData(type) {
                 });
             }
         }
-        dataSets.push(chartData);
+        chartDatas.push(chartData);
     }
     var firstDate = new Date();
     firstDate.setDate(firstDate.getDate() - 500);
     firstDate.setHours(0, 0, 0, 0);
 
     var chartData1 = [];
-    var chartData2 = [];
-    var chartData3 = [];
     for (var i = 0; i < 500; i++) {
         var newDate = new Date(firstDate);
         newDate.setDate(newDate.getDate() + i);
 
         var a2 = Math.round(Math.random() * (1 + i));
 
-        var a3 = Math.round(Math.random() * (1 + i));
-
-        var a4 = Math.round(Math.random() * (1 + i));
-
         chartData1.push({
             date: newDate,
             count: a2,
         });
-        chartData2.push({
-            date: newDate,
-            count: a3,
-        });
-        chartData3.push({
-            date: newDate,
-            count: a4,
-        });
     }
-    dataSets.push(chartData1);
-    dataSets.push(chartData2);
-    dataSets.push(chartData3);
+    chartDatas.push(chartData1);
 }
 
 // Makes the AJAX calls to the appropriate endpoints
@@ -134,50 +118,31 @@ function createStockChart() {
 
     // DATASETS //////////////////////////////////////////
     // create data sets first
-    var dataSet1 = new AmCharts.DataSet();
-    dataSet1.title = "first data set";
-    dataSet1.fieldMappings = [{
-        fromField: "count",
-        toField: "count"
-    }];
-    dataSet1.dataProvider = dataSets[0];
-    dataSet1.categoryField = "date";
+    var datasets = [];
+    var dataset
+    for (var i = 0; i < chartDatas.length; i++) {
+        dataset = new AmCharts.DataSet();
+        dataset.title = (i + 1) + "th data set";
+        dataset.fieldMappings = [{
+            fromField: "count",
+            toField: "count"
+        }];
+        dataset.dataProvider = chartDatas[i];
+        dataset.categoryField = "date";
+        console.log(chartDatas[i]);
+        datasets.push(dataset)
+        console.log(dataset);
+    }
 
-    var dataSet2 = new AmCharts.DataSet();
-    dataSet2.title = "second data set";
-    dataSet2.fieldMappings = [{
-        fromField: "count",
-        toField: "count"
-    }];
-    dataSet2.dataProvider = dataSets[1];
-    dataSet2.categoryField = "date";
-
-    var dataSet3 = new AmCharts.DataSet();
-    dataSet3.title = "third data set";
-    dataSet3.fieldMappings = [{
-        fromField: "count",
-        toField: "count"
-    }];
-    dataSet3.dataProvider = dataSets[2];
-    dataSet3.categoryField = "date";
-
-    var dataSet4 = new AmCharts.DataSet();
-    dataSet4.title = "fourth data set";
-    dataSet4.fieldMappings = [{
-        fromField: "count",
-        toField: "count"
-    }];
-    dataSet4.dataProvider = dataSets[3];
-    dataSet4.categoryField = "date";
 
     // set data sets to the chart
-    chart.dataSets = [dataSet1, dataSet2, dataSet3, dataSet4];
-    chart.mainDataSet = dataSet1;
+    chart.dataSets = datasets;
+    chart.mainDataSet = datasets[0]; //SET TO MAX LENGTH DATASET?
 
     // PANELS ///////////////////////////////////////////
     // first stock panel
-    var stockPanel1 = new AmCharts.StockPanel();
-    stockPanel1.showCategoryAxis = true;
+    var stockPanel = new AmCharts.StockPanel();
+    stockPanel.showCategoryAxis = true;
 
     // graph of first stock panel
     var graph = new AmCharts.StockGraph();
@@ -196,10 +161,10 @@ function createStockChart() {
     graph.compareField = "count";
 
     // STOCK PANEL
-    stockPanel1.addStockGraph(graph);
-    stockPanel1.recalculateToPercents = "never";
-    stockPanel1.stockLegend = new AmCharts.StockLegend();
-    chart.panels = [stockPanel1];
+    stockPanel.addStockGraph(graph);
+    stockPanel.recalculateToPercents = "never";
+    stockPanel.stockLegend = new AmCharts.StockLegend();
+    chart.panels = [stockPanel];
 
     // OTHER SETTINGS ////////////////////////////////////
     var chartScrollbar = new AmCharts.ChartScrollbarSettings();
@@ -280,7 +245,7 @@ function createStockChart() {
     chart.dataSetSelector = dataSetSelector;
 
     // WRITE
-    if(dataSets[0].length > 0){
+    if(chartDatas[0].length > 0){
         chart.write("chart");
         zoomChart();
         setPanSelect();
@@ -295,8 +260,8 @@ function createStockChart() {
 function zoomChart() {
     var day = 86400000;
     if(! (start && end)){
-        start = new Date(dataSets[0][dataSets[0].length - 1].date - (day * 10));
-        end = new Date(dataSets[0][dataSets[0].length - 1].date);
+        start = new Date(chartDatas[0][chartDatas[0].length - 1].date - (day * 10));
+        end = new Date(chartDatas[0][chartDatas[0].length - 1].date);
         chart.zoom(start, end);
     } else {
     chart.zoom(start, end);
