@@ -49,6 +49,7 @@
 (defpartial select-box []
   [:select#select.chzn-select
     {:onchange "selectChart();"
+      :multiple ""
       :data-placeholder "Choose a CoGe Page"}
     [:option {:data ""} ""]
     [:option {:data ""} "Main Four Jobs"]
@@ -107,8 +108,7 @@
                   "js/graph-script2.js"
                   "js/select-script.js"
                   "js/autocomplete-script.js"
-                  "js/keybindings.js"
-                  "js/mousewheel-script.js")]))
+                  "js/keybindings.js")]))
 
 (defpartial day-page []
   (javascript-tag "$('#day').addClass('active')"))

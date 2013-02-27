@@ -3,6 +3,11 @@ var start;
 var end;
 var chartDatas = [];
 
+function createChart(){
+    generateChartData($(".active").attr('id'));
+    createStockChart();
+}
+
 function generateChartData(type) {
     chartData = [];
     var response = graphDataGopher(type);
@@ -40,23 +45,6 @@ function generateChartData(type) {
         }
         chartDatas.push(chartData);
     }
-    var firstDate = new Date();
-    firstDate.setDate(firstDate.getDate() - 500);
-    firstDate.setHours(0, 0, 0, 0);
-
-    var chartData1 = [];
-    for (var i = 0; i < 500; i++) {
-        var newDate = new Date(firstDate);
-        newDate.setDate(newDate.getDate() + i);
-
-        var a2 = Math.round(Math.random() * (1 + i));
-
-        chartData1.push({
-            date: newDate,
-            count: a2,
-        });
-    }
-    chartDatas.push(chartData1);
 }
 
 // Makes the AJAX calls to the appropriate endpoints
@@ -73,7 +61,9 @@ function graphDataGopher(type) {
             url += $('#search').val();
             page = $('#search').val();
         }else{
-            url += $('option:selected').attr("data");
+            if ($('option:selected').attr("data")){
+                url += $('option:selected').attr("data");
+            }
             if ($('option:selected').text()) {
                 page = $('option:selected').text();
             } else {
@@ -107,10 +97,6 @@ function graphDataDateSculptor(data) {
     }
 }
 
-function createChart(){
-    generateChartData($(".active").attr('id'));
-    createStockChart();
-}
 
 function createStockChart() {
     chart = new AmCharts.AmStockChart();
@@ -127,17 +113,11 @@ function createStockChart() {
             fromField: "count",
             toField: "count"
         }];
+        dataset.compared = true;
         dataset.dataProvider = chartDatas[i];
         dataset.categoryField = "date";
-        console.log(chartDatas[i]);
         datasets.push(dataset)
-        console.log(dataset);
     }
-
-
-    // set data sets to the chart
-    chart.dataSets = datasets;
-    chart.mainDataSet = datasets[0]; //SET TO MAX LENGTH DATASET?
 
     // PANELS ///////////////////////////////////////////
     // first stock panel
@@ -164,6 +144,8 @@ function createStockChart() {
     stockPanel.addStockGraph(graph);
     stockPanel.recalculateToPercents = "never";
     stockPanel.stockLegend = new AmCharts.StockLegend();
+    stockPanel.stockLegend.markerType = "circle";
+    stockPanel.stockLegend.align = "center";
     chart.panels = [stockPanel];
 
     // OTHER SETTINGS ////////////////////////////////////
@@ -213,36 +195,9 @@ function createStockChart() {
     valueAxis.axisColor = "#333";
     valueAxis.axisAlpha = 0.35;
 
-    // PERIOD SELECTOR ///////////////////////////////////
-   /* var periodSelector = new AmCharts.PeriodSelector();
-    periodSelector.position = "left";
-    periodSelector.periods = [{
-        period: "DD",
-        count: 10,
-        label: "10 days"
-    }, {
-        period: "MM",
-        selected: true,
-        count: 1,
-        label: "1 month"
-    }, {
-        period: "YYYY",
-        count: 1,
-        label: "1 year"
-    }, {
-        period: "YTD",
-        label: "YTD"
-    }, {
-        period: "MAX",
-        label: "MAX"
-    }];
-    chart.periodSelector = periodSelector;
-    */
-
-    // DATA SET SELECTOR
-    var dataSetSelector = new AmCharts.DataSetSelector();
-    dataSetSelector.position = "top";
-    chart.dataSetSelector = dataSetSelector;
+    // set data sets to the chart
+    chart.dataSets = datasets;
+    chart.mainDataSet = datasets[0]; //SET TO MAX LENGTH DATASET?
 
     // WRITE
     if(chartDatas[0].length > 0){
@@ -250,10 +205,7 @@ function createStockChart() {
         zoomChart();
         setPanSelect();
     } else {
-        $('#chart').html("</br></br></br>"
-                + "</br></br><h3 style='text-align: center;'>"
-                + $('#search').val()
-                + ": No Data</br></br>Try Again</h3>");
+        alert($('#search').val() + ": No Data");
     }
 }
 
@@ -282,6 +234,7 @@ function setPanSelect() {
 function toggleGraphs(e){
     start = new Date(chart.panels[0].graphs[0].categoryAxis.startTime);
     end = new Date(chart.panels[0].graphs[0].categoryAxis.endTime);
+    chartDatas = _.initial(chartDatas);
     if (e.id === "day"){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
