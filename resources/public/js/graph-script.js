@@ -1,6 +1,7 @@
 var chart;
 var start;
 var end;
+var page = [];
 var chartDatas = [];
 
 function createChart(){
@@ -15,7 +16,8 @@ function generateChartData(type) {
     if (response[0]) {
         var firstDate = response[0]['date'];
         $("#firstDate").html("" + firstDate);
-        var daysBetween = Math.round(Math.abs(firstDate - new Date()) / 8640000);
+        var daysBetween = Math.round(
+                            Math.abs(firstDate - new Date()) / 8640000);
         var lastCount = 0;
 
         for (var i = 0; i <= daysBetween && response.length; i++) {
@@ -54,20 +56,20 @@ function graphDataGopher(type) {
 
     if($('option:selected').attr("data") == 'user') {
         url = "get-log-account-" + type + "/";
-        page = "User Additions";
+        page.push("User Additions");
     }else{
         url = "get-log-jobs-" + type + "/";
         if ($('#search').val() != "" ) {
             url += $('#search').val();
-            page = $('#search').val();
+            page.push($('#search').val());
         }else{
             if ($('option:selected').attr("data")){
                 url += $('option:selected').attr("data");
             }
             if ($('option:selected').text()) {
-                page = $('option:selected').text();
+                page.push($('option:selected').text());
             } else {
-                page = "Main Four Jobs";
+                page.push("Main Four Jobs");
             }
         }
     }
@@ -100,7 +102,14 @@ function graphDataDateSculptor(data) {
 
 function createStockChart() {
     chart = new AmCharts.AmStockChart();
-    chart.pathToImages = "http://www.amcharts.com/lib/images/";
+    chart.pathToImages = "img/";
+    chart.balloon.borderColor = "#333";
+    chart.balloon.color = "#333";
+    chart.balloon.borderThickness = 1;
+    chart.zoomOutOnDataUpdate = false;
+    chart.colors =
+        ["#84B586", "#D39BB1", "#DC9168", "#A39276", "#ABBAD2", "#73B7AE",
+         "#AFB66B", "#DEB470", "#8F909B", "#D88F84", "#A78C52", "#C8B8A3"]
 
     // DATASETS //////////////////////////////////////////
     // create data sets first
@@ -108,7 +117,7 @@ function createStockChart() {
     var dataset
     for (var i = 0; i < chartDatas.length; i++) {
         dataset = new AmCharts.DataSet();
-        dataset.title = (i + 1) + "th data set";
+        dataset.title = page[i];
         dataset.fieldMappings = [{
             fromField: "count",
             toField: "count"
@@ -119,33 +128,29 @@ function createStockChart() {
         datasets.push(dataset)
     }
 
-    // PANELS ///////////////////////////////////////////
-    // first stock panel
-    var stockPanel = new AmCharts.StockPanel();
-    stockPanel.showCategoryAxis = true;
-
-    // graph of first stock panel
+    // GRAPH ///////////////////////////////////////////
     var graph = new AmCharts.StockGraph();
     graph.title = page;
     graph.labelText = "[[count]]";
-    graph.valueField = "count";
     graph.bullet = "round";
     graph.bulletBorderColor = "#FFF";
     graph.bulletBorderThickness = 2;
+    graph.compareGraphBalloonText = "[[count]]";
     graph.lineThickness = 2;
-    graph.lineColor = "#86bf84";
-    graph.negativeLineColor = "#9574a8";
-    graph.hideBulletsCount = 30;
     graph.valueField = "count";
     graph.comparable = true;
     graph.compareField = "count";
 
     // STOCK PANEL
+    var stockPanel = new AmCharts.StockPanel();
+    stockPanel.showCategoryAxis = true;
+    stockPanel.categoryField = "date";
     stockPanel.addStockGraph(graph);
     stockPanel.recalculateToPercents = "never";
     stockPanel.stockLegend = new AmCharts.StockLegend();
     stockPanel.stockLegend.markerType = "circle";
     stockPanel.stockLegend.align = "center";
+
     chart.panels = [stockPanel];
 
     // OTHER SETTINGS ////////////////////////////////////
@@ -154,7 +159,14 @@ function createStockChart() {
     chartScrollbar.autoGridCount = true;
     chartScrollbar.scrollbarHeight = 25;
     chartScrollbar.color = "#333";
+    chartScrollbar.updateOnReleaseOnly = false;
     chart.chartScrollbarSettings = chartScrollbar;
+
+    // PANELS SETTINGS
+    var panelSettings = new AmCharts.PanelsSettings();
+    panelSettings.marginLeft = 25;
+    panelSettings.marginRight = 25;
+    chart.panelsSettings = panelSettings;
 
     // CURSOR
     chartCursor = chart.chartCursorSettings;
@@ -163,7 +175,6 @@ function createStockChart() {
     chartCursor.cursorColor = '#9574a8';
     chartCursor.categoryBalloonColor = '#9574a8';
     chartCursor.cursorPosition = "mouse";
-    chartCursor.pan = true; // set it to false if you want the cursor to work in "select" mode
 
     // CATEGORY AXIS
     chartCategoryAxis = chart.categoryAxesSettings;
@@ -194,6 +205,7 @@ function createStockChart() {
     valueAxis.dashLength = 1;
     valueAxis.axisColor = "#333";
     valueAxis.axisAlpha = 0.35;
+    valueAxis.inside = false;
 
     // set data sets to the chart
     chart.dataSets = datasets;
@@ -235,6 +247,7 @@ function toggleGraphs(e){
     start = new Date(chart.panels[0].graphs[0].categoryAxis.startTime);
     end = new Date(chart.panels[0].graphs[0].categoryAxis.endTime);
     chartDatas = _.initial(chartDatas);
+    page =_.initial(page);
     if (e.id === "day"){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
@@ -250,12 +263,18 @@ function toggleGraphs(e){
     }
 }
 
-function searchChart(){
-    $(".chzn-select").val('').trigger("liszt:updated");
-    createChart();
+function searchChart() {
+    var val = $("#search").val();
+    if(_.indexOf(page, val) == -1) {
+        $(".chzn-select").val('').trigger("liszt:updated");
+        createChart();
+    }
 }
 
 function selectChart(){
-    $('#search').val("");
-    createChart();
+    var val = _.last($("#select").val());
+    if(_.indexOf(page, val) == -1) {
+        $('#search').val("");
+        createChart();
+    }
 }
