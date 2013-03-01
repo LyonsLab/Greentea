@@ -16,34 +16,6 @@ only screen and (min-device-pixel-ratio: 2) {
   };
 }
 
-table {
-  margin: 0px auto;
-  border-collapse: collapse;
-}
-
-th {
-  font-weight: bold;
-  color: #666;
-  letter-spacing: 2px;
-  text-align: left;
-}
-
-td {
-  border: 1px solid #C1DAD7;
-  background: #FFF;
-  padding: 6px 6px 6px 12px;
-  color: #6D929B;
-}
-
-tr {
-  border-radius: 4px;
-}
-
-td:nth-child(odd) {
-  background: #F5FAFA;
-  color: #496F79;
-}
-
 a.nav {
   color: #333;
   text-decoration: none;
@@ -197,28 +169,24 @@ span.nav {
   float: right;
 }
 
-#search {
+#search-icon {
+  width: 20px;
+  height: auto;
+  position: relative;
+  left: -25px;
+  margin-right: -20px;
+  top: -4px;
+  opacity: 0.55;
+}
+
+#select {
+  margin: 0px auto;
   width: 190px;
   margin: 10px;
   height: 20px;
   padding: 3px;
   margin-top: 33px;
   font-size: 14pt;
-}
-
-#search-icon {
-  width: 20px;
-  height: auto;
-  position: relative;
-  left: -35px;
-  margin-right: -20px;
-  top: 3px;
-  opacity: 0.55;
-}
-
-#select {
-  margin: 0px auto;
-  width: 250px;
 }
 
 #footer {

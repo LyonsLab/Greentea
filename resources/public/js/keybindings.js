@@ -20,13 +20,6 @@ Mousetrap.bind(['s'], function() {
     setPanSelect();
 });
 
-// Search on Enter Keybinding
-$(document).keydown(function(e){
-    if (e.keyCode == 13) {
-        searchChart();
-    }
-});
-
 // Arrow Key Navigation Keybindings
 Mousetrap.bind(['up'], function() {
     event.preventDefault();

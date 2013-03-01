@@ -48,24 +48,11 @@
 
 (defpartial select-box []
   [:select#select.chzn-select
-    {:onchange "selectChart();"
-      :multiple ""
-      :data-placeholder "Choose a CoGe Page"}
-    [:option {:data ""} ""]
-    [:option {:data ""} "Main Four Jobs"]
-    [:option {:data "synmap"} "SynMap"]
-    [:option {:data "synfind"} "SynFind"]
-    [:option {:data "gevo"} "GEvo"]
-    [:option {:data "cogeblast"} "CoGeBlast"]
-    [:option {:data "featview"} "FeatView"]
-    [:option {:data "organismview"} "OrganismView"]
-    [:option {:data "user"} "User Additions"]])
-
-(defpartial search-box []
-  [:input#search
-    {:oninput "autoComplete()" :onBlur "searchChart()"}]
-  (image {:id "search-icon"}
-                "img/search.png"))
+      {:multiple ""
+       :onchange "createChart();"
+       :data-placeholder "Choose a CoGe Page"}
+    [:option {:data ""} ""]]
+  (image {:id "search-icon"} "img/search.png"))
 
 (defpartial graph-page [& content]
   (html5
@@ -79,8 +66,6 @@
             [:div#logo "CoGe"]
             [:div#subheader "Analytics"]
             [:hr#logo-hr]
-            (search-box)
-            [:br][:br]
             (select-box)
           ]
           [:div#inner

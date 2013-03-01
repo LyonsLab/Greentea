@@ -5,12 +5,9 @@ function init(){
 }
 
 function createSelect() {
-    pageTypeDataGopher();
-}
-
-function pageTypeDataGopher() {
     var response;
     var ajax = $.ajax({
+        async: false,
         url: "get-log-page-types/" ,
         datatype: "json",
         success: function(data){
@@ -22,22 +19,24 @@ function pageTypeDataGopher() {
 
 function getOptsSuccess(data) {
     var newOpts =
-        "<option data=''></option>" +
-        "<option data=''>Main Four Jobs</option>" +
-        "<option data='user'>User Additions</option>";
+        "<option value=''></option>" +
+        "<option value=''>Main Four Jobs</option>" +
+        "<option value='user'>User Additions</option>";
 
     data.forEach(parseData);
     function parseData(element) {
-        newOpts += "<option data='" + element.page + "'>" + element.page + "</option>";
+        newOpts += "<option value='" + element.page + "'>"
+                    + element.page + "</option>";
     }
 
     $('#select').html(newOpts);
+    $('#select').val("");
     $("#select").trigger("liszt:updated");
 }
 
 function dataFail() {
     $('#chart').html("</br></br></br>"
         + "</br></br><h3 style='text-align: center;'>"
-        + $('#search').val()
-        + ": No Data</br></br>Try Again</h3>");
+        + "No Page Data. There must be something wrong with the database"
+        + "connection.</br>Please try again later.</h3>");
 }

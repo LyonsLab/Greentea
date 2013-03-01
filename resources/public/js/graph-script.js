@@ -5,13 +5,13 @@ var page = [];
 var chartDatas = [];
 
 function createChart(){
-    generateChartData($(".active").attr('id'));
+    generateChartData();
     createStockChart();
 }
 
-function generateChartData(type) {
+function generateChartData() {
     chartData = [];
-    var response = graphDataGopher(type);
+    var response = graphDataGopher();
 
     if (response[0]) {
         var firstDate = response[0]['date'];
@@ -32,13 +32,13 @@ function generateChartData(type) {
                 lastCount = response[0]['count'];
                 response = _.rest(response);
 
-            } else if (type === "day") {
+            } else if ($(".active").attr('id') === "day") {
                 chartData.push({
                     date: newDate,
                     count: 0
                 });
 
-            } else if (type === "accumulated") {
+            } else if ($(".active").attr('id') === "accumulated") {
                 chartData.push({
                     date: newDate,
                     count: lastCount
@@ -50,27 +50,22 @@ function generateChartData(type) {
 }
 
 // Makes the AJAX calls to the appropriate endpoints
-function graphDataGopher(type) {
+function graphDataGopher() {
     var response;
     var url;
 
-    if($('option:selected').attr("data") == 'user') {
-        url = "get-log-account-" + type + "/";
+    if($('option:selected').attr("value") == 'user') {
+        url = "get-log-account-" + $(".active").attr('id') + "/";
         page.push("User Additions");
     }else{
-        url = "get-log-jobs-" + type + "/";
-        if ($('#search').val() != "" ) {
-            url += $('#search').val();
-            page.push($('#search').val());
-        }else{
-            if ($('option:selected').attr("data")){
-                url += $('option:selected').attr("data");
-            }
-            if ($('option:selected').text()) {
-                page.push($('option:selected').text());
-            } else {
-                page.push("Main Four Jobs");
-            }
+        url = "get-log-jobs-" + $(".active").attr('id') + "/";
+        var option = $('#select').val()
+        if (option){
+            var lastOption = _.last($('option:selected')).getAttribute("value")
+            url += lastOption;
+            page.push(lastOption);
+        } else {
+            page.push("Main Four Jobs");
         }
     }
 
@@ -235,10 +230,8 @@ function zoomChart() {
 function setPanSelect() {
     if ($("#rb1").prop("checked")) {
         chart.chartCursorSettings.pan = false;
-        chart.chartCursorSettings.zoomable = true;
     } else {
         chart.chartCursorSettings.pan = true;
-        chart.chartCursorSettings.zoomable = false;
     }
     chart.validateNow();
 }
@@ -263,18 +256,9 @@ function toggleGraphs(e){
     }
 }
 
-function searchChart() {
-    var val = $("#search").val();
-    if(_.indexOf(page, val) == -1) {
-        $(".chzn-select").val('').trigger("liszt:updated");
-        createChart();
-    }
-}
-
 function selectChart(){
-    var val = _.last($("#select").val());
+    var val = _.last($('option:selected')).getAttribute("value");
     if(_.indexOf(page, val) == -1) {
-        $('#search').val("");
         createChart();
     }
 }
