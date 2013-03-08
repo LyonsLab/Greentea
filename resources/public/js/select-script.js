@@ -7,7 +7,6 @@ function init(){
 function createSelect() {
     var response;
     var ajax = $.ajax({
-        async: false,
         url: "get-log-page-types/" ,
         datatype: "json",
         success: function(data){

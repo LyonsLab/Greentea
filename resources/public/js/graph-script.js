@@ -157,10 +157,16 @@ function createStockChart() {
     chartScrollbar.updateOnReleaseOnly = false;
     chart.chartScrollbarSettings = chartScrollbar;
 
+    // LEGEND SETTINGS
+    var legendSettings = new AmCharts.LegendSettings();
+    legendSettings.marginTop = 5;
+    chart.legendSettings = legendSettings
+
     // PANELS SETTINGS
     var panelSettings = new AmCharts.PanelsSettings();
-    panelSettings.marginLeft = 25;
-    panelSettings.marginRight = 25;
+    panelSettings.marginLeft = 30;
+    panelSettings.marginRight = 10;
+    panelSettings.marginTop = 5;
     chart.panelsSettings = panelSettings;
 
     // CURSOR
