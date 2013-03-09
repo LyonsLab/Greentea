@@ -1,12 +1,13 @@
 function init(){
     $('.chzn-select').chosen({ no_results_text: 'No results matched'});
     createSelect();
-    createChart();
+    selectChart();
 }
 
 function createSelect() {
     var response;
     var ajax = $.ajax({
+        async: false,
         url: "get-log-page-types/" ,
         datatype: "json",
         success: function(data){
@@ -18,8 +19,7 @@ function createSelect() {
 
 function getOptsSuccess(data) {
     var newOpts =
-        "<option value=''></option>" +
-        "<option value=''>Main Four Jobs</option>" +
+        "<option value='' selected>Main Four Jobs</option>" +
         "<option value='user'>User Additions</option>";
 
     data.forEach(parseData);
@@ -29,7 +29,6 @@ function getOptsSuccess(data) {
     }
 
     $('#select').html(newOpts);
-    $('#select').val("");
     $("#select").trigger("liszt:updated");
 }
 

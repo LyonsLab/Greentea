@@ -1,7 +1,7 @@
 var chart;
 var start;
 var end;
-var page = [];
+var pages = [];
 var chartDatas = [];
 
 function createChart(){
@@ -54,19 +54,14 @@ function graphDataGopher() {
     var response;
     var url;
 
-    if($('option:selected').attr("value") == 'user') {
+    var lastOption = _.last($('#select').val())
+    if(lastOption == 'user') {
         url = "get-log-account-" + $(".active").attr('id') + "/";
-        page.push("User Additions");
+    }else if(lastOption == '') {
+        url = "get-log-jobs-" + $(".active").attr('id') + "/";
     }else{
         url = "get-log-jobs-" + $(".active").attr('id') + "/";
-        var option = $('#select').val()
-        if (option){
-            var lastOption = _.last($('option:selected')).getAttribute("value")
-            url += lastOption;
-            page.push(lastOption);
-        } else {
-            page.push("Main Four Jobs");
-        }
+        url += lastOption;
     }
 
     request = $.ajax({
@@ -79,6 +74,7 @@ function graphDataGopher() {
         }
     });
 
+    pages.push(lastOption);
     graphDataDateSculptor(response);
     return response;
 }
@@ -110,9 +106,17 @@ function createStockChart() {
     // create data sets first
     var datasets = [];
     var dataset
+    console.log(pages);
+    console.log(chartDatas);
     for (var i = 0; i < chartDatas.length; i++) {
         dataset = new AmCharts.DataSet();
-        dataset.title = page[i];
+        if (pages[i] == ""){
+            dataset.title = "Main Four Jobs";
+        } else if (pages[i] == "users"){
+            dataset.title = "User Additions";
+        }else{
+            dataset.title = pages[i];
+        }
         dataset.fieldMappings = [{
             fromField: "count",
             toField: "count"
@@ -125,7 +129,7 @@ function createStockChart() {
 
     // GRAPH ///////////////////////////////////////////
     var graph = new AmCharts.StockGraph();
-    graph.title = page;
+    graph.title = "Main Four Jobs";
     graph.labelText = "[[count]]";
     graph.bullet = "round";
     graph.bulletBorderColor = "#FFF";
@@ -164,7 +168,7 @@ function createStockChart() {
 
     // PANELS SETTINGS
     var panelSettings = new AmCharts.PanelsSettings();
-    panelSettings.marginLeft = 30;
+    panelSettings.marginLeft = 50;
     panelSettings.marginRight = 10;
     panelSettings.marginTop = 5;
     chart.panelsSettings = panelSettings;
@@ -245,8 +249,8 @@ function setPanSelect() {
 function toggleGraphs(e){
     start = new Date(chart.panels[0].graphs[0].categoryAxis.startTime);
     end = new Date(chart.panels[0].graphs[0].categoryAxis.endTime);
-    chartDatas = _.initial(chartDatas);
-    page =_.initial(page);
+    //chartDatas = _.initial(chartDatas);
+    //pages =_.initial(pages);
     if (e.id === "day"){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
@@ -263,8 +267,19 @@ function toggleGraphs(e){
 }
 
 function selectChart(){
-    var val = _.last($('option:selected')).getAttribute("value");
-    if(_.indexOf(page, val) == -1) {
+    var val = _.last($('#select').val());
+    if(_.indexOf(pages, val) == -1) {
+        getChanged();
+    }
+}
+
+function getChanged(){
+    if ($('#select').val().length > pages.length){ // Item added
+        delta = _.difference($('#select').val(), pages);
+        console.log("Added " + delta);
         createChart();
+    }else{ // Item Removed
+        delta = _.difference(pages, $('#select').val());
+        console.log("Removed " + delta);
     }
 }
