@@ -264,8 +264,8 @@ function addGraph(){
 }
 
 function removeGraph(){
-    var deselected = _.union($('#select').val(), [""])[0];
-    var delta = _.difference(pages, deselected);
+    var deselected = _.union($('#select').val(), [""]);
+    var delta = _.difference(pages, deselected)[0];
     console.log("Removed " + delta);
     var index = _.indexOf(pages, delta);
     pages = _.without(pages, delta);
