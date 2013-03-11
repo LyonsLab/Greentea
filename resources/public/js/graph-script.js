@@ -5,6 +5,17 @@ var end;
 var pages = [];
 var chartDatas = [];
 
+function updateChartData(type){
+    var tempDatas = [];
+    var i = 0;
+    chartDatas.forEach(updateData);
+    function updateData(el){
+        tempDatas.push(generateChartData(type, pages[i]));
+        i++;
+    }
+    chartDatas = tempDatas;
+}
+
 function generateChartData(type, job) {
     chartData = [];
     var response = graphDataGopher(type, job);
@@ -41,7 +52,6 @@ function generateChartData(type, job) {
                 });
             }
         }
-        chartDatas.push(chartData);
         return chartData;
     }
 }
@@ -66,7 +76,6 @@ function graphDataGopher(type, job) {
         dataType: "json",
         success: function(data){
             response = data;
-            pages.push(job);
             response.forEach(graphDataDateSculptor);
         },
         fail: function(){
@@ -85,7 +94,8 @@ function graphDataDateSculptor(element) {
 
 
 function createChart() {
-    var data = generateChartData($(".active").attr('id'), "");
+    chartDatas.push(generateChartData($(".active").attr('id'), ""));
+    pages.push("");
     chart = new AmCharts.AmStockChart();
     chart.pathToImages = "img/";
     chart.balloon.borderColor = "#333";
@@ -176,10 +186,8 @@ function createChart() {
     valueAxis.axisAlpha = 0.35;
     valueAxis.inside = false;
 
-    // set data sets to the chart
-
     // WRITE
-    if(data){
+    if(chartDatas.length > 0){
         dataHandler();
         chart.write("chart");
         chart.validateData();
@@ -190,6 +198,7 @@ function createChart() {
     }
 }
 function dataHandler(){
+    var type = $(".active").attr('id')
     var datasets = [];
     var dataset
     for (var i = 0; i < chartDatas.length; i++) {
@@ -240,21 +249,22 @@ function toggleGraphs(e){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
             $('#day').addClass('active');
-            getChanged();
+            updateGraph();
         }
     } else if (e.id === "accumulated"){
         $('#day').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
             $('#accumulated').addClass('active');
-            getChanged();
+            updateGraph();
         }
     }
 }
 
 function addGraph(){
-    var delta = _.difference($('#select').val(), pages);
-    console.log("Added " + delta[0]);
-    generateChartData($(".active").attr('id'), delta[0]);
+    var delta = _.difference($('#select').val(), pages)[0];
+    console.log("Added " + delta);
+    chartDatas.push(generateChartData($(".active").attr('id'), delta));
+    pages.push(delta);
     dataHandler();
     chart.write("chart");
     chart.validateData();
@@ -263,17 +273,26 @@ function addGraph(){
 }
 
 function removeGraph(){
-    var selected = _.union($('#select').val(), [""]);
-    var delta = _.difference(pages, selected);
-    console.log("Removed " + delta[0]);
-    var index = _.indexOf(pages, delta[0]);
-    pages = _.without(pages, delta[0]);
-    console.log(pages);
+    var deselected = _.union($('#select').val(), [""])[0];
+    var delta = _.difference(pages, deselected);
+    console.log("Removed " + delta);
+    var index = _.indexOf(pages, delta);
+    pages = _.without(pages, delta);
     chartDatas.splice(index, 1);
-    console.log(chartDatas);
     dataHandler();
     chart.write("chart");
     chart.validateData();
+    console.log(pages);
+    console.log(chartDatas);
+}
+
+function updateGraph(){
+    updateChartData($(".active").attr('id'));
+    dataHandler();
+    chart.write("chart");
+    chart.validateData();
+    console.log(pages);
+    console.log(chartDatas);
 }
 
 function getChanged(){
