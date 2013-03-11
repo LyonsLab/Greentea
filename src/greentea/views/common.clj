@@ -70,6 +70,7 @@
           ]
           [:div#inner
             (graph-nav)
+            [:div#spinner]
             [:div#chart {:onMousewheel "event.preventDefault(); handle(event)"}]
             [:div#chart-bottom
               [:div#controls
@@ -88,8 +89,10 @@
                       })")
       (include-js "js/lib/chosen.jquery.min.js"
                   "js/lib/mousetrap.min.js"
+                  "js/lib/spin.min.js"
                   "js/lib/amstock.js"
                   "js/lib/underscore-min.js"
+                  "js/spinner.js"
                   "js/graph-script.js"
                   "js/select-script.js"
                   "js/autocomplete-script.js"

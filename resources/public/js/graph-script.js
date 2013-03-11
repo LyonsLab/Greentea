@@ -98,13 +98,12 @@ function createChart() {
     pages.push("");
     chart = new AmCharts.AmStockChart();
     chart.pathToImages = "img/";
-    chart.balloon.borderColor = "#333";
-    chart.balloon.color = "#333";
-    chart.balloon.borderThickness = 1;
     chart.zoomOutOnDataUpdate = false;
     chart.colors =
         ["#84B586", "#D39BB1", "#DC9168", "#A39276", "#ABBAD2", "#73B7AE",
          "#AFB66B", "#DEB470", "#8F909B", "#D88F84", "#A78C52", "#C8B8A3"]
+    chart.legendDiv = "legend"
+
 
     // GRAPH ///////////////////////////////////////////
     var graph = new AmCharts.StockGraph();
@@ -115,8 +114,6 @@ function createChart() {
 
     // STOCK PANEL
     stockPanel = new AmCharts.StockPanel();
-    stockPanel.showCategoryAxis = true;
-    stockPanel.categoryField = "date";
     stockPanel.addStockGraph(graph);
     stockPanel.recalculateToPercents = "never";
     stockPanel.stockLegend = new AmCharts.StockLegend();
@@ -126,24 +123,21 @@ function createChart() {
     chart.panels = [stockPanel];
 
     // OTHER SETTINGS ////////////////////////////////////
-    var chartScrollbar = new AmCharts.ChartScrollbarSettings();
+    chartScrollbar = chart.chartScrollbarSettings;
     chartScrollbar.graph = graph;
-    chartScrollbar.scrollbarHeight = 25;
+    chartScrollbar.height = 30;
     chartScrollbar.color = "#333";
     chartScrollbar.updateOnReleaseOnly = false;
-    chart.chartScrollbarSettings = chartScrollbar;
 
     // LEGEND SETTINGS
-    var legendSettings = new AmCharts.LegendSettings();
+    legendSettings = chart.legendSettings;
     legendSettings.marginTop = 5;
-    chart.legendSettings = legendSettings
 
     // PANELS SETTINGS
-    var panelSettings = new AmCharts.PanelsSettings();
+    panelSettings = chart.panelsSettings;
     panelSettings.marginLeft = 50;
     panelSettings.marginRight = 10;
     panelSettings.marginTop = 5;
-    chart.panelsSettings = panelSettings;
 
     // CURSOR
     chartCursor = chart.chartCursorSettings;
@@ -179,7 +173,6 @@ function createChart() {
 
     // VALUE AXIS
     valueAxis = chart.valueAxesSettings;
-    valueAxis.dashLength = 1;
     valueAxis.axisColor = "#333";
     valueAxis.axisAlpha = 0.35;
     valueAxis.inside = false;
