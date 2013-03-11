@@ -188,11 +188,7 @@ function createChart() {
 
     // WRITE
     if(chartDatas.length > 0){
-        dataHandler();
-        chart.write("chart");
-        chart.validateData();
-        zoomChart();
-        setPanSelect();
+        chartReset();
     } else {
         $('#chart').html($('#search').val() + ": No Data");
     }
@@ -218,7 +214,7 @@ function dataHandler(){
         datasets.push(dataset)
     }
     chart.dataSets = datasets;
-    chart.mainDataSet = datasets[0]; //SET TO MAX LENGTH DATASET?
+    chart.mainDataSet = datasets[0];
 }
 
 function zoomChart() {
@@ -243,8 +239,8 @@ function setPanSelect() {
 }
 
 function toggleGraphs(e){
-    start = new Date(chart.panels[0].graphs[0].categoryAxis.startTime);
-    end = new Date(chart.panels[0].graphs[0].categoryAxis.endTime);
+    start = new Date(chart.scrollbarChart.startTime);
+    end = new Date(chart.scrollbarChart.endTime);
     if (e.id === "day"){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
@@ -263,13 +259,10 @@ function toggleGraphs(e){
 function addGraph(){
     var delta = _.difference($('#select').val(), pages)[0];
     console.log("Added " + delta);
-    chartDatas.push(generateChartData($(".active").attr('id'), delta));
+    _.memoize(
+        chartDatas.push(generateChartData($(".active").attr('id'), delta)));
     pages.push(delta);
-    dataHandler();
-    chart.write("chart");
-    chart.validateData();
-    console.log(pages);
-    console.log(chartDatas);
+    chartReset();
 }
 
 function removeGraph(){
@@ -279,20 +272,20 @@ function removeGraph(){
     var index = _.indexOf(pages, delta);
     pages = _.without(pages, delta);
     chartDatas.splice(index, 1);
-    dataHandler();
-    chart.write("chart");
-    chart.validateData();
-    console.log(pages);
-    console.log(chartDatas);
+    chartReset();
 }
 
 function updateGraph(){
     updateChartData($(".active").attr('id'));
+    chartReset();
+}
+
+function chartReset(){
     dataHandler();
     chart.write("chart");
+    zoomChart();
+    setPanSelect();
     chart.validateData();
-    console.log(pages);
-    console.log(chartDatas);
 }
 
 function getChanged(){
