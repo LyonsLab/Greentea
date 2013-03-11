@@ -1,7 +1,7 @@
 function init(){
     $('.chzn-select').chosen({ no_results_text: 'No results matched'});
     createSelect();
-    selectChart();
+    createChart();
 }
 
 function createSelect() {
@@ -19,7 +19,6 @@ function createSelect() {
 
 function getOptsSuccess(data) {
     var newOpts =
-        "<option value='' selected>Main Four Jobs</option>" +
         "<option value='user'>User Additions</option>";
 
     data.forEach(parseData);

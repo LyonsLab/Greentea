@@ -49,7 +49,7 @@
 (defpartial select-box []
   [:select#select.chzn-select
       {:multiple ""
-       :onchange "selectChart();"
+       :onchange "getChanged();"
        :data-placeholder "Choose a CoGe Page"}
     [:option {:data ""} ""]]
   (image {:id "search-icon"} "img/search.png"))

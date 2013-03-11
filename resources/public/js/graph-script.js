@@ -1,17 +1,13 @@
 var chart;
 var start;
+var stockPanel;
 var end;
 var pages = [];
 var chartDatas = [];
 
-function createChart(){
-    generateChartData();
-    createStockChart();
-}
-
-function generateChartData() {
+function generateChartData(type, job) {
     chartData = [];
-    var response = graphDataGopher();
+    var response = graphDataGopher(type, job);
 
     if (response[0]) {
         var firstDate = response[0]['date'];
@@ -32,7 +28,7 @@ function generateChartData() {
                 lastCount = response[0]['count'];
                 response = _.rest(response);
 
-            } else if ($(".active").attr('id') === "day") {
+            } else if (type === "day") {
                 chartData.push({
                     date: newDate,
                     count: 0
@@ -46,22 +42,21 @@ function generateChartData() {
             }
         }
         chartDatas.push(chartData);
+        return chartData;
     }
 }
 
 // Makes the AJAX calls to the appropriate endpoints
-function graphDataGopher() {
+function graphDataGopher(type, job) {
     var response;
     var url;
 
-    var lastOption = _.last($('#select').val())
-    if(lastOption == 'user') {
-        url = "get-log-account-" + $(".active").attr('id') + "/";
-    }else if(lastOption == '') {
-        url = "get-log-jobs-" + $(".active").attr('id') + "/";
+    if(job == 'user') {
+        url = "get-log-account-" + type + "/";
+    }else if(job == '') {
+        url = "get-log-jobs-" + type + "/";
     }else{
-        url = "get-log-jobs-" + $(".active").attr('id') + "/";
-        url += lastOption;
+        url = "get-log-jobs-" + type + "/" + job;
     }
 
     request = $.ajax({
@@ -71,27 +66,26 @@ function graphDataGopher() {
         dataType: "json",
         success: function(data){
             response = data;
+            pages.push(job);
+            response.forEach(graphDataDateSculptor);
+        },
+        fail: function(){
+            console.log("graphDataGopher data fail");
         }
     });
-
-    pages.push(lastOption);
-    graphDataDateSculptor(response);
     return response;
 }
 
 // Processes data into usable javascript Date objects.
-function graphDataDateSculptor(data) {
-    data.forEach(formatDate);
-
-    function formatDate(element) {
-        var date = element.date.split("-");
-        date = new Date(date);
-        element['date'] = date;
-    }
+function graphDataDateSculptor(element) {
+    var date = element.date.split("-");
+    date = new Date(date);
+    element['date'] = date;
 }
 
 
-function createStockChart() {
+function createChart() {
+    var data = generateChartData($(".active").attr('id'), "");
     chart = new AmCharts.AmStockChart();
     chart.pathToImages = "img/";
     chart.balloon.borderColor = "#333";
@@ -102,46 +96,16 @@ function createStockChart() {
         ["#84B586", "#D39BB1", "#DC9168", "#A39276", "#ABBAD2", "#73B7AE",
          "#AFB66B", "#DEB470", "#8F909B", "#D88F84", "#A78C52", "#C8B8A3"]
 
-    // DATASETS //////////////////////////////////////////
-    // create data sets first
-    var datasets = [];
-    var dataset
-    console.log(pages);
-    console.log(chartDatas);
-    for (var i = 0; i < chartDatas.length; i++) {
-        dataset = new AmCharts.DataSet();
-        if (pages[i] == ""){
-            dataset.title = "Main Four Jobs";
-        } else if (pages[i] == "users"){
-            dataset.title = "User Additions";
-        }else{
-            dataset.title = pages[i];
-        }
-        dataset.fieldMappings = [{
-            fromField: "count",
-            toField: "count"
-        }];
-        dataset.compared = true;
-        dataset.dataProvider = chartDatas[i];
-        dataset.categoryField = "date";
-        datasets.push(dataset)
-    }
 
     // GRAPH ///////////////////////////////////////////
     var graph = new AmCharts.StockGraph();
     graph.title = "Main Four Jobs";
-    graph.labelText = "[[count]]";
-    graph.bullet = "round";
-    graph.bulletBorderColor = "#FFF";
-    graph.bulletBorderThickness = 2;
-    graph.compareGraphBalloonText = "[[count]]";
-    graph.lineThickness = 2;
     graph.valueField = "count";
     graph.comparable = true;
     graph.compareField = "count";
 
     // STOCK PANEL
-    var stockPanel = new AmCharts.StockPanel();
+    stockPanel = new AmCharts.StockPanel();
     stockPanel.showCategoryAxis = true;
     stockPanel.categoryField = "date";
     stockPanel.addStockGraph(graph);
@@ -213,17 +177,39 @@ function createStockChart() {
     valueAxis.inside = false;
 
     // set data sets to the chart
-    chart.dataSets = datasets;
-    chart.mainDataSet = datasets[0]; //SET TO MAX LENGTH DATASET?
 
     // WRITE
-    if(chartDatas[0].length > 0){
+    if(data){
+        dataHandler();
         chart.write("chart");
+        chart.validateData();
         zoomChart();
         setPanSelect();
     } else {
-        alert($('#search').val() + ": No Data");
+        $('#chart').html($('#search').val() + ": No Data");
     }
+}
+function dataHandler(){
+    var datasets = [];
+    var dataset
+    for (var i = 0; i < chartDatas.length; i++) {
+        dataset = new AmCharts.DataSet();
+        if (pages[i] == "user"){
+            dataset.title = "User Additions";
+        }else{
+            dataset.title = pages[i];
+        }
+        dataset.fieldMappings = [{
+            fromField: "count",
+            toField: "count"
+        }];
+        dataset.compared = true;
+        dataset.dataProvider = chartDatas[i];
+        dataset.categoryField = "date";
+        datasets.push(dataset)
+    }
+    chart.dataSets = datasets;
+    chart.mainDataSet = datasets[0]; //SET TO MAX LENGTH DATASET?
 }
 
 function zoomChart() {
@@ -233,8 +219,9 @@ function zoomChart() {
         end = new Date(chartDatas[0][chartDatas[0].length - 1].date);
         chart.zoom(start, end);
     } else {
-    chart.zoom(start, end);
+        chart.zoom(start, end);
     }
+    chart.validateNow();
 }
 
 function setPanSelect() {
@@ -249,37 +236,51 @@ function setPanSelect() {
 function toggleGraphs(e){
     start = new Date(chart.panels[0].graphs[0].categoryAxis.startTime);
     end = new Date(chart.panels[0].graphs[0].categoryAxis.endTime);
-    //chartDatas = _.initial(chartDatas);
-    //pages =_.initial(pages);
     if (e.id === "day"){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
             $('#day').addClass('active');
-            createChart();
+            getChanged();
         }
     } else if (e.id === "accumulated"){
         $('#day').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
             $('#accumulated').addClass('active');
-            createChart();
+            getChanged();
         }
     }
 }
 
-function selectChart(){
-    var val = _.last($('#select').val());
-    if(_.indexOf(pages, val) == -1) {
-        getChanged();
-    }
+function addGraph(){
+    var delta = _.difference($('#select').val(), pages);
+    console.log("Added " + delta[0]);
+    generateChartData($(".active").attr('id'), delta[0]);
+    dataHandler();
+    chart.write("chart");
+    chart.validateData();
+    console.log(pages);
+    console.log(chartDatas);
+}
+
+function removeGraph(){
+    var selected = _.union($('#select').val(), [""]);
+    var delta = _.difference(pages, selected);
+    console.log("Removed " + delta[0]);
+    var index = _.indexOf(pages, delta[0]);
+    pages = _.without(pages, delta[0]);
+    console.log(pages);
+    chartDatas.splice(index, 1);
+    console.log(chartDatas);
+    dataHandler();
+    chart.write("chart");
+    chart.validateData();
 }
 
 function getChanged(){
-    if ($('#select').val().length > pages.length){ // Item added
-        delta = _.difference($('#select').val(), pages);
-        console.log("Added " + delta);
-        createChart();
-    }else{ // Item Removed
-        delta = _.difference(pages, $('#select').val());
-        console.log("Removed " + delta);
+    var selected = _.union($('#select').val(), [""]);
+    if (selected.length > pages.length) {
+        addGraph();
+    } else {
+        removeGraph();
     }
 }
