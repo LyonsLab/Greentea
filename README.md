@@ -46,7 +46,7 @@ Get Greentea Running:
 
 `$ lein run &`
 
-* This should pull in all the required dependencies'''*''' and start a Jetty servlet running on port 3456. 
+* This should pull in all the required dependencies and start a Jetty servlet running on port 3456. 
 
 * Check localhost:3456 to verify that the analytics platform is running. 
 
@@ -63,30 +63,15 @@ Now to setup apache to point localhost/greentea/ to port 3456.
         
         <VirtualHost *:90> 
           ServerAdmin coge.genome@gmail.com ServerName localhost 
-          #ServerAlias geco.com.analytics
           ErrorLog /home/rchasman/logs/error.log 
           CustomLog <PATH>/logs/access.log combined 
           LogLevel warn
-            
-         <Directory <PATH>/Greentea/resources/public/>     
-              AllowOverride All                                                        
-              Order Allow,Deny                                                         
-              Allow from all                                                           
-         </Directory>
-         
-          DocumentRoot <PATH>/Greentea/resources/public                    
-            
+                     
           ProxyPass /analytics/ http://localhost:3456/analytics/                       
-          ProxyPassReverse /analytics/ http://localhost:3456/analytics/                
-            
-          ProxyPass /analytics http://localhost:3456/analytics/                        
-          ProxyPassReverse /analytics http://localhost:3456/analytics/                 
-            
-          ProxyPass /greentea/ http://localhost:3456/greentea/                         
-          ProxyPassReverse /greentea/ http://localhost:3456/greentea/                  
-            
+          ProxyPass /analytics http://localhost:3456/analytics/    
+          
+          ProxyPass /greentea/ http://localhost:3456/greentea/                        
           ProxyPass /greentea http://localhost:3456/greentea/                          
-          ProxyPassReverse /greentea http://localhost:3456/greentea/                   
         </VirtualHost>
 
 These lines proxy calls to /greentea and /greentea/ to port 3456 so that we don't have to type any ugly numbers to reach our site. 
@@ -100,32 +85,3 @@ If it says OK, it means the server should be started and you should be able to p
 If everything was configured properly point your browser to <DNS>/Greentea and Greentea should be up and running!
 
 ----
-
-*In the case of a common dependency issue with iplant-clojure-commons:
-----------------------------------------------------------------------
-
-We need to point to the missing dependency manually:
-
-* Run: 
-
-`$ git clone https://github.com/iPlantCollaborativeOpenSource/iplant-clojure-commons.git`
-
-In the iplant-clojure-commons directory, run: 
-
-`$ lein uberjar` 
-
-In lein 2.0 this will create a file at "<PATH>/iplant-clojure-commons/clojure-commons-1.3.3-SNAPSHOT-standalone.jar" 
-
-* Replacing with appropriate <PATH>, run: 
-
-`$ mvn install:install-file -DgroupId=org.iplantc -DartifactId=clojure-commons -Dversion=1.3.3-SNAPSHOT -Dpackaging=jar -Dfile=&lt;PATH&gt;/iplant-clojure-commons/clojure-commons-1.3.3-SNAPSHOT-standalone.jar`
-
-* Now try :
-
-`$ lein clean` 
-
-and then 
-
-`$ lein run` 
-
-* The dependency issue should be resolved.
