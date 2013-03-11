@@ -106,7 +106,6 @@ function createChart() {
         ["#84B586", "#D39BB1", "#DC9168", "#A39276", "#ABBAD2", "#73B7AE",
          "#AFB66B", "#DEB470", "#8F909B", "#D88F84", "#A78C52", "#C8B8A3"]
 
-
     // GRAPH ///////////////////////////////////////////
     var graph = new AmCharts.StockGraph();
     graph.title = "Main Four Jobs";
@@ -129,7 +128,6 @@ function createChart() {
     // OTHER SETTINGS ////////////////////////////////////
     var chartScrollbar = new AmCharts.ChartScrollbarSettings();
     chartScrollbar.graph = graph;
-    chartScrollbar.autoGridCount = true;
     chartScrollbar.scrollbarHeight = 25;
     chartScrollbar.color = "#333";
     chartScrollbar.updateOnReleaseOnly = false;
@@ -239,8 +237,8 @@ function setPanSelect() {
 }
 
 function toggleGraphs(e){
-    start = new Date(chart.scrollbarChart.startTime);
-    end = new Date(chart.scrollbarChart.endTime);
+    start = new Date(chart.panels[0].categoryAxis.startTime);
+    end = new Date(chart.panels[0].categoryAxis.endTime);
     if (e.id === "day"){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {

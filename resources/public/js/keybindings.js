@@ -5,6 +5,7 @@ function handle(delta) {
     } else {
         zoomIn();
     }
+    _.throttle(chart.scrollbarChart.validateNow(), 50000);
 }
 
 // Pan and Select Keybindings
