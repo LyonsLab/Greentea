@@ -236,15 +236,16 @@ function toggleGraphs(e){
         $('#accumulated').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
             $('#day').addClass('active');
-            updateGraph();
+            updateChartData(e.id);
         }
     } else if (e.id === "accumulated"){
         $('#day').removeClass('active');
         if (!(_.contains(e.className.split(/\s+/), "active"))) {
             $('#accumulated').addClass('active');
-            updateGraph();
+            updateChartData(e.id);
         }
     }
+    chartReset();
 }
 
 function addGraph(){
@@ -263,11 +264,6 @@ function removeGraph(){
     var index = _.indexOf(pages, delta);
     pages = _.without(pages, delta);
     chartDatas.splice(index, 1);
-    chartReset();
-}
-
-function updateGraph(){
-    updateChartData($(".active").attr('id'));
     chartReset();
 }
 
