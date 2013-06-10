@@ -79,7 +79,7 @@ function graphDataGopher(type, job) {
             response.forEach(graphDataDateSculptor);
         },
         fail: function(){
-            console.log("graphDataGopher data fail");
+            //console.log("graphDataGopher data fail");
         }
     });
     return response;
@@ -157,6 +157,7 @@ function createChart() {
     chartCategoryAxis.equalSpacing = true;
     chartCategoryAxis.autoGridCount = true;
     chartCategoryAxis.position = "bottom";
+    chartCategoryAxis.maxSeries = 0;
     chartCategoryAxis.dateFormats = [{
             period: "DD",
             format: "DD"
@@ -250,7 +251,7 @@ function toggleGraphs(e){
 
 function addGraph(){
     var delta = _.difference($('#select').val(), pages)[0];
-    console.log("Added " + delta);
+    //console.log("Added " + delta);
     _.memoize(
         chartDatas.push(generateChartData($(".active").attr('id'), delta)));
     pages.push(delta);
@@ -260,7 +261,7 @@ function addGraph(){
 function removeGraph(){
     var deselected = _.union($('#select').val(), [""]);
     var delta = _.difference(pages, deselected)[0];
-    console.log("Removed " + delta);
+    //console.log("Removed " + delta);
     var index = _.indexOf(pages, delta);
     pages = _.without(pages, delta);
     chartDatas.splice(index, 1);

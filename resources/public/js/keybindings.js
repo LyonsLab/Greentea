@@ -1,13 +1,3 @@
-// Handle Mousewheel Delta
-function handle(delta) {
-    if (delta.wheelDelta < 0) {
-        zoomOut();
-    } else {
-        zoomIn();
-    }
-    _.throttle(chart.scrollbarChart.validateNow(), 50000);
-}
-
 // Pan and Select Keybindings
 Mousetrap.bind(['p'], function() {
     $('#rb2').prop('checked', true);
@@ -21,7 +11,40 @@ Mousetrap.bind(['s'], function() {
     setPanSelect();
 });
 
-// Arrow Key Navigation Keybindings
+// Handle Mousewheel Delta
+function handle(delta) {
+    if (delta.wheelDelta < 0) {
+        zoomOut();
+    } else {
+        zoomIn();
+    }
+    _.throttle(chart.scrollbarChart.validateNow(), 50000);
+}
+
+// Zoom Functions
+function zoomIn() {
+    var graph = chart.panels[0];
+    var end = graph.chartData.length;
+    if (graph.end - 2 > graph.start && graph.end < end) {
+        chart.panels[0].zoomToIndexes(graph.start + 1, graph.end - 1);
+    }
+    chart.scrollbarChart.zoom(chart.panels[0].start, chart.panels[0].end);
+}
+
+function zoomOut() {
+    var graph = chart.panels[0];
+    var end = graph.chartData.length;
+    if (graph.start > 0 && graph.end < end) {
+        chart.panels[0].zoomToIndexes(graph.start - 1, graph.end + 1);
+    } else if (graph.end < end) {
+        chart.panels[0].zoomToIndexes(graph.start, graph.end + 1);
+    } else {
+        chart.panels[0].zoomToIndexes(graph.start -1, graph.end);
+    }
+    chart.scrollbarChart.zoom(chart.panels[0].start, chart.panels[0].end);
+}
+
+/* Arrow Key Navigation Keybindings
 Mousetrap.bind(['up'], function() {
     event.preventDefault();
     zoomIn();
@@ -49,26 +72,4 @@ Mousetrap.bind(['right'], function() {
     }
     chart.scrollbarChart.zoom(chart.panels[0].start, chart.panels[0].end)
 });
-
-// Zoom Functions
-function zoomIn() {
-    var graph = chart.panels[0];
-    var end = graph.chartData.length;
-    if (graph.end - 2 > graph.start && graph.end < end) {
-        chart.panels[0].zoomToIndexes(graph.start + 1, graph.end - 1);
-    }
-    chart.scrollbarChart.zoom(chart.panels[0].start, chart.panels[0].end)
-}
-
-function zoomOut() {
-    var graph = chart.panels[0];
-    var end = graph.chartData.length;
-    if (graph.start > 0 && graph.end < end) {
-        chart.panels[0].zoomToIndexes(graph.start - 1, graph.end + 1);
-    } else if (graph.end < end){
-        chart.panels[0].zoomToIndexes(graph.start, graph.end + 1);
-    } else {
-        chart.panels[0].zoomToIndexes(graph.start -1, graph.end);
-    }
-    chart.scrollbarChart.zoom(chart.panels[0].start, chart.panels[0].end)
-}
+*/
