@@ -30,6 +30,7 @@
     (where
       (and
         (> :time "0")
+        (> :type "0")
         (cond (nil? type)
           (or (like :page "GeVo%")
               (like :page "SynMap%")
